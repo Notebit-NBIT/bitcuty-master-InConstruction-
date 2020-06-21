@@ -194,8 +194,7 @@ constexpr Timestamp LOCKED_TX_ALLOWED_DELTA_SECONDS(Timestamp difficulty_target)
 // Amount Money supply, number in format uint64_t Bitcuty(BCUTY) coins for the lifetime for each linky-link linkchain BLOB          ¡¡¡ 
       // The genesis block with premined coins for the general rewarding creation                                                   ¡¡¡
       const Amount(UINT64_C) MONEY_SUPPLY                              = UINT64_C(18446744073709551615);  // BCUTY                  ¡¡¡
-      const Amount(UINT64_C) GENESIS_BLOCK_REWARD                      = UINT64_C(446744073709551615);    // BCUTY for creation     ¡¡¡
-
+	      
 // Magics genesis coinbase with a premined bitcuty coin for general rewarding                                                       ¡¡¡
 uint32_t const GENESIS_NONCE                                           = 1;                //                                       ¡¡¡
 const char GENESIS_COINBASE_TX_HEX[]                                   = "";               //                                       ¡¡¡
