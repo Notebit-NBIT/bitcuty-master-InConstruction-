@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "Node.hpp"
@@ -37,13 +37,13 @@ Node::Node(logging::ILogger &log, const Config &config, BlockChainState &block_c
     , log_request_timestamp(std::chrono::steady_clock::now())
     , log_response_timestamp(std::chrono::steady_clock::now())
     , m_pow_checker(block_chain.get_currency(), platform::EventLoop::current()) {
-	if (config.bytecoind_bind_port != 0) {
-		m_api = std::make_unique<http::Server>(config.bytecoind_bind_ip, config.bytecoind_bind_port,
+	if (config.bitcutyd_bind_port != 0) {
+		m_api = std::make_unique<http::Server>(config.bitcutyd_bind_ip, config.bitcutyd_bind_port,
 		    std::bind(&Node::on_api_http_request, this, _1, _2, _3),
 		    std::bind(&Node::on_api_http_disconnect, this, _1));
 		common::console::set_text_color(common::console::BrightGreen);
-		m_log(logging::INFO) << "Node RPC listening on " << config.bytecoind_bind_ip << ":"
-		                     << config.bytecoind_bind_port;
+		m_log(logging::INFO) << "Node RPC listening on " << config.bitcutyd_bind_ip << ":"
+		                     << config.bitcutyd_bind_port;
 		common::console::set_text_color(common::console::Default);
 	}
 	m_commit_timer.once(float(m_config.db_commit_period_blockchain));
@@ -107,7 +107,7 @@ bool Node::on_idle() {
 	if (m_block_chain.get_tip_height() >= m_block_chain.internal_import_known_height()) {
 		for (size_t s = 0; s != 10; ++s) {
 			bool on_idle_result_s = false;
-			std::vector<P2PProtocolBytecoin *> bp_copy{m_broadcast_protocols.begin(), m_broadcast_protocols.end()};
+			std::vector<P2PProtocolBitcuty *> bp_copy{m_broadcast_protocols.begin(), m_broadcast_protocols.end()};
 			// We need bp_copy because on_idle can disconnect, modifying m_broadcast_protocols
 			for (auto &&who : bp_copy)
 				on_idle_result_s = who->on_idle(idle_start) | on_idle_result_s;
@@ -202,7 +202,7 @@ static const std::string beautiful_index_finish = " </td></tr></table></body></h
 static const std::string robots_txt             = "User-agent: *\r\nDisallow: /";
 
 void Node::fill_cors(const http::RequestBody &req, http::ResponseBody &res) {
-	if (req.r.origin.empty() || !m_config.bytecoind_cors_asterisk)
+	if (req.r.origin.empty() || !m_config.bitcutyd_cors_asterisk)
 		return;
 	res.r.headers.push_back({"Access-Control-Allow-Origin", "*"});
 	res.r.headers.push_back({"Access-Control-Allow-Methods", "GET, POST, OPTIONS"});
@@ -228,7 +228,7 @@ bool Node::on_api_http_request(http::Client *who, http::RequestBody &&request, h
 		response.set_body(std::string(robots_txt));
 		return true;
 	}
-	if (!m_config.good_bytecoind_auth(request.r.basic_authorization))
+	if (!m_config.good_bitcutyd_auth(request.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization");
 	// Private methods will check for private authorization again
 	if (request.r.uri == "/" || request.r.uri == "/index.html") {
@@ -259,7 +259,7 @@ bool Node::on_api_http_request(http::Client *who, http::RequestBody &&request, h
 		return true;
 	}
 	// We emulate nginx here, will remove later
-	if (m_config.bytecoind_cors_asterisk && common::starts_with(request.r.uri, api::cnd::SyncBlocks::url_prefix())) {
+	if (m_config.bitcutyd_cors_asterisk && common::starts_with(request.r.uri, api::cnd::SyncBlocks::url_prefix())) {
 		Height height = 0;
 		if (api::cnd::SyncBlocks::parse_filename(
 		        request.r.uri.substr(api::cnd::SyncBlocks::url_prefix().size()), &height)) {
@@ -379,7 +379,7 @@ api::cnd::GetStatus::Response Node::create_status_response() const {
 	return res;
 }
 
-void Node::broadcast(P2PProtocolBytecoin *exclude, const BinaryArray &data) {
+void Node::broadcast(P2PProtocolBitcuty *exclude, const BinaryArray &data) {
 	for (auto &&p : m_broadcast_protocols)
 		if (p != exclude)
 			p->P2PProtocol::send(BinaryArray(data));  // Move is impossible here
@@ -431,7 +431,7 @@ api::cnd::GetStatistics::Response Node::create_statistics_response(const api::cn
 
 bool Node::on_get_statistics(http::Client *, http::RequestBody &&http_request, json_rpc::Request &&,
     api::cnd::GetStatistics::Request &&req, api::cnd::GetStatistics::Response &res) {
-	if (!m_config.good_bytecoind_auth_private(http_request.r.basic_authorization))
+	if (!m_config.good_bitcutyd_auth_private(http_request.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization-private");
 	res = create_statistics_response(req);
 	return true;
@@ -439,7 +439,7 @@ bool Node::on_get_statistics(http::Client *, http::RequestBody &&http_request, j
 
 bool Node::on_get_archive(http::Client *, http::RequestBody &&http_request, json_rpc::Request &&,
     api::cnd::GetArchive::Request &&req, api::cnd::GetArchive::Response &resp) {
-	if (!m_config.good_bytecoind_auth_private(http_request.r.basic_authorization))
+	if (!m_config.good_bitcutyd_auth_private(http_request.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization-private");
 	m_block_chain.read_archive(std::move(req), resp);
 	return true;
@@ -521,7 +521,7 @@ bool Node::on_sync_blocks(http::Client *, http::RequestBody &&http_request, json
     api::cnd::SyncBlocks::Request &&req, api::cnd::SyncBlocks::Response &res) {
 	const bool is_binary = http_request.r.http_version_major == 0;
 	if ((!is_binary || req.need_redundant_data) &&
-	    !m_config.good_bytecoind_auth_private(http_request.r.basic_authorization))
+	    !m_config.good_bitcutyd_auth_private(http_request.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization-private");  // slow variants are private
 	std::vector<Hash> subchain = fill_sync_blocks_subchain(req, &res.start_height);
 	res.blocks.resize(subchain.size());
@@ -592,7 +592,7 @@ bool Node::on_sync_mempool(http::Client *, http::RequestBody &&http_request, jso
     api::cnd::SyncMemPool::Request &&req, api::cnd::SyncMemPool::Response &res) {
 	const bool is_binary = http_request.r.http_version_major == 0;
 	if ((!is_binary || req.need_redundant_data) &&
-	    !m_config.good_bytecoind_auth_private(http_request.r.basic_authorization))
+	    !m_config.good_bitcutyd_auth_private(http_request.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization-private");  // slow variants are private
 	const auto &pool = m_block_chain.get_memory_state_transactions();
 	for (auto &&ex : req.known_hashes)
@@ -616,7 +616,7 @@ bool Node::on_sync_mempool(http::Client *, http::RequestBody &&http_request, jso
 
 bool Node::on_get_block_header(http::Client *, http::RequestBody &&, json_rpc::Request &&,
     api::cnd::GetBlockHeader::Request &&request, api::cnd::GetBlockHeader::Response &response) {
-	if (!request.hash && !request.height_or_depth)
+	if (!request.hash && !request.height_or_depth)}
 		throw json_rpc::Error(json_rpc::INVALID_REQUEST, "You must set either 'hash' or 'height_or_depth'");
 	if (request.hash && request.height_or_depth)
 		throw json_rpc::Error(json_rpc::INVALID_REQUEST, "You cannot set both 'hash' and 'height_or_depth'");
@@ -1005,16 +1005,16 @@ void Node::submit_block(const BinaryArray &blockblob, api::BlockHeader *info) {
 	msg_v4.top_id                    = m_block_chain.get_tip_bid();
 
 	BinaryArray raw_msg_v4 = LevinProtocol::send(msg_v4);
-	broadcast(nullptr, raw_msg_v4);
+	broadcast(nullptr, raw_msg_v4 );
 	advance_long_poll();
 }
 
 bool Node::on_submitblock(http::Client *, http::RequestBody &&http_request, json_rpc::Request &&,
     api::cnd::SubmitBlock::Request &&req, api::cnd::SubmitBlock::Response &res) {
-	if (!m_config.good_bytecoind_auth_private(http_request.r.basic_authorization))
+	if (!m_config.good_bitcutyd_auth_private(http_request.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization-private");
 	if (!req.cm_nonce.empty()) {
-#if bytecoin_ALLOW_CM
+#if bitcuty_ALLOW_CM
 		// Experimental, a bit hacky
 		BlockTemplate bt;
 		seria::from_binary(bt, req.blocktemplate_blob);

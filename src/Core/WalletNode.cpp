@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "WalletNode.hpp"
@@ -41,8 +41,8 @@ WalletNode::WalletNode(logging::ILogger &log, WalletState &wallet_state)
     : m_log(log, "WalletNode")
     , m_config(wallet_state.get_config())
     , m_currency(wallet_state.get_currency())
-    , m_commands_agent(m_config.bytecoind_remote_ip,
-          m_config.bytecoind_remote_port ? m_config.bytecoind_remote_port : m_config.bytecoind_bind_port) {
+    , m_commands_agent(m_config.bitcutyd_remote_ip,
+          m_config.bitcutyd_remote_port ? m_config.bitcutyd_remote_port : m_config.bitcutyd_bind_port) {
 	if (m_config.walletd_bind_port != 0) {
 		m_api = std::make_unique<http::Server>(m_config.walletd_bind_ip,
 		    m_config.walletd_bind_port,
@@ -60,8 +60,8 @@ WalletNode::WalletNode(const Config &config, const Currency &currency, logging::
     : m_log(log, "WalletNode")
     , m_config(config)
     , m_currency(currency)
-    , m_commands_agent(m_config.bytecoind_remote_ip,
-          m_config.bytecoind_remote_port ? m_config.bytecoind_remote_port : m_config.bytecoind_bind_port) {
+    , m_commands_agent(m_config.bitcutyd_remote_ip,
+          m_config.bitcutyd_remote_port ? m_config.bitcutyd_remote_port : m_config.bitcutyd_bind_port) {
 	m_api = std::make_unique<http::Server>(m_config.walletd_bind_ip,
 	    m_config.walletd_bind_port,
 	    std::bind(&WalletNode::on_api_http_request, this, _1, _2, _3),
@@ -89,13 +89,13 @@ bool WalletNode::on_api_http_request(http::Client *who, http::RequestBody &&requ
 	request.r.http_version_major  = 1;
 	request.r.http_version_minor  = 1;
 	request.r.keep_alive          = true;
-	request.r.basic_authorization = m_config.bytecoind_authorization;
+	request.r.basic_authorization = m_config.bitcutyd_authorization;
 	add_waiting_command(who, std::move(original_request), json_rpc::Request{}, std::move(request),
 	    [](const WaitingClient &wc, http::ResponseBody &&send_response) mutable {
 		    send_response.r.http_version_major = wc.original_request.r.http_version_major;
 		    send_response.r.http_version_minor = wc.original_request.r.http_version_minor;
 		    send_response.r.keep_alive         = wc.original_request.r.keep_alive;
-		    // bytecoind never sends connection-close, so we are safe to retain all headers
+		    // bitcutyd never sends connection-close, so we are safe to retain all headers
 		    http::Server::write(wc.original_who, std::move(send_response));
 	    },
 	    [](const WaitingClient &wc, std::string err) {
@@ -642,21 +642,21 @@ bool WalletNode::on_create_transaction(http::Client *who, http::RequestBody &&ra
 	ra_request.amounts = selector.get_ra_amounts();
 	http::RequestBody new_request =
 	    json_rpc::create_request(api::cnd::url(), api::cnd::GetRandomOutputs::method(), ra_request);
-	new_request.r.basic_authorization = m_config.bytecoind_authorization;
+	new_request.r.basic_authorization = m_config.bitcutyd_authorization;
 	m_log(logging::TRACE) << "sending get_random_outputs, body=" << new_request.body;
 	add_waiting_command(who, std::move(raw_request), std::move(raw_js_request), std::move(new_request),
 	    [=](const WaitingClient &wc, http::ResponseBody &&random_response) mutable {
 		    m_log(logging::TRACE) << "got response to get_random_outputs, status=" << random_response.r.status
 		                          << " body " << random_response.body;
 		    if (random_response.r.status != 200) {
-			    throw json_rpc::Error(api::walletd::CreateTransaction::BYTECOIND_REQUEST_ERROR,
+			    throw json_rpc::Error(api::walletd::CreateTransaction::BITCUTYD_REQUEST_ERROR,
 			        "got HTTP error as response on get_random_outputs");
 		    }
 		    Transaction tx{};
 		    api::cnd::GetRandomOutputs::Response ra_response;
 		    json_rpc::Error error;
 		    if (!json_rpc::parse_response(random_response.body, ra_response, error))
-			    throw json_rpc::Error(api::walletd::CreateTransaction::BYTECOIND_REQUEST_ERROR,
+			    throw json_rpc::Error(api::walletd::CreateTransaction::BITCUTYD_REQUEST_ERROR,
 			        "got JSON error as response on get_random_outputs");
 		    api::walletd::CreateTransaction::Response last_response;
 		    const auto actual_anonymity = selector.add_mixed_inputs(&builder, good_anonymity, std::move(ra_response));
@@ -691,7 +691,7 @@ bool WalletNode::on_create_transaction(http::Client *who, http::RequestBody &&ra
 		    last_http_response.r.headers.push_back({"Content-Type", "application/json; charset=utf-8"});
 		    last_http_response.r.status = 200;
 		    last_http_response.set_body(json_rpc::create_error_response_body(
-		        json_rpc::Error(api::walletd::CreateTransaction::BYTECOIND_REQUEST_ERROR, err),
+		        json_rpc::Error(api::walletd::CreateTransaction::BITCUTYD_REQUEST_ERROR, err),
 		        wc.original_json_request));
 		    http::Server::write(wc.original_who, std::move(last_http_response));
 	    });
@@ -721,19 +721,19 @@ bool WalletNode::on_create_sendproof(http::Client *who, http::RequestBody &&raw_
 	ra_request.hash = request.transaction_hash;
 	http::RequestBody new_request =
 	    json_rpc::create_request(api::cnd::url(), api::cnd::GetRawTransaction::method(), ra_request);
-	new_request.r.basic_authorization = m_config.bytecoind_authorization;
+	new_request.r.basic_authorization = m_config.bitcutyd_authorization;
 	m_log(logging::TRACE) << "sending get_raw_transaction, body=" << new_request.body;
 	add_waiting_command(who, std::move(raw_request), std::move(raw_js_request), std::move(new_request),
 	    [=](const WaitingClient &wc, http::ResponseBody &&raw_transaction_response) mutable {
 		    m_log(logging::TRACE) << "got response to get_raw_transaction, status=" << raw_transaction_response.r.status
 		                          << " body " << raw_transaction_response.body;
 		    if (raw_transaction_response.r.status != 200)
-			    throw json_rpc::Error(api::walletd::CreateSendproof::BYTECOIND_REQUEST_ERROR,
+			    throw json_rpc::Error(api::walletd::CreateSendproof::BITCUTYD_REQUEST_ERROR,
 			        "got HTTP error to get_transaction request to " CRYPTONOTE_NAME "d");
 		    api::cnd::GetRawTransaction::Response ra_response;
 		    json_rpc::Error error;
 		    if (!json_rpc::parse_response(raw_transaction_response.body, ra_response, error))
-			    throw json_rpc::Error(api::walletd::CreateSendproof::BYTECOIND_REQUEST_ERROR,
+			    throw json_rpc::Error(api::walletd::CreateSendproof::BITCUTYD_REQUEST_ERROR,
 			        "Transaction not in blockchain or " CRYPTONOTE_NAME "d out of sync");
 		    if (ptx.prefix_hash != get_transaction_prefix_hash(ra_response.raw_transaction))
 			    throw json_rpc::Error(
@@ -778,7 +778,7 @@ bool WalletNode::on_create_sendproof(http::Client *who, http::RequestBody &&raw_
 		    last_http_response.r.headers.push_back({"Content-Type", "application/json; charset=utf-8"});
 		    last_http_response.r.status = 200;
 		    last_http_response.set_body(json_rpc::create_error_response_body(
-		        json_rpc::Error(api::walletd::CreateSendproof::BYTECOIND_REQUEST_ERROR, err),
+		        json_rpc::Error(api::walletd::CreateSendproof::BITCUTYD_REQUEST_ERROR, err),
 		        wc.original_json_request));
 		    http::Server::write(wc.original_who, std::move(last_http_response));
 	    });
@@ -794,7 +794,7 @@ bool WalletNode::on_send_transaction(http::Client *who, http::RequestBody &&raw_
 	http::RequestBody new_request;
 	new_request.set_body(std::move(raw_request.body));  // We save on copying body here
 	new_request.r.set_firstline("POST", api::cnd::url(), 1, 1);
-	new_request.r.basic_authorization = m_config.bytecoind_authorization;
+	new_request.r.basic_authorization = m_config.bitcutyd_authorization;
 	add_waiting_command(who, std::move(raw_request), std::move(raw_js_request), std::move(new_request),
 	    [](const WaitingClient &wc2, http::ResponseBody &&send_response) mutable {
 		    http::ResponseBody resp(std::move(send_response));
@@ -808,7 +808,7 @@ bool WalletNode::on_send_transaction(http::Client *who, http::RequestBody &&raw_
 		    resp.r.headers.push_back({"Content-Type", "application/json; charset=utf-8"});
 		    resp.r.status = 200;
 		    resp.set_body(json_rpc::create_error_response_body(
-		        json_rpc::Error(api::walletd::SendTransaction::BYTECOIND_REQUEST_ERROR, err),
+		        json_rpc::Error(api::walletd::SendTransaction::BITCUTYD_REQUEST_ERROR, err),
 		        wc2.original_json_request));
 		    http::Server::write(wc2.original_who, std::move(resp));
 	    });

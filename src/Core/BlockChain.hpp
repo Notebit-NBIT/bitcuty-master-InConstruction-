@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcuty developers HB1team.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #pragma once
@@ -95,7 +95,7 @@ public:
 	bool get_transaction(
 	    const Hash &tid, BinaryArray *binary_tx, Height *block_height, Hash *block_hash, size_t *index_in_block) const;
 	bool has_transaction(const Hash &tid) const;
-	// Modify blockchain state. bytecoin header does not contain enough info for consensus calcs, so we cannot have
+	// Modify blockchain state. bitcuty header does not contain enough info for consensus calcs, so we cannot have
 	// header chain without block chain
 	bool add_block(const PreparedBlock &pb, api::BlockHeader *info, bool just_mined, const std::string &source_address);
 

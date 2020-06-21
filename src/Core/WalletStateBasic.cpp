@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "WalletStateBasic.hpp"
@@ -232,7 +232,7 @@ void WalletStateBasic::push_chain(const api::BlockHeader &header) {
 	else
 		m_chain_height += 1;
 	if (header.height != m_chain_height) {
-		m_log(logging::ERROR) << "Inconsistent block heights returned by bytecoind, m_chain_height= " << m_chain_height
+		m_log(logging::ERROR) << "Inconsistent block heights returned by bitcutyd, m_chain_height= " << m_chain_height
 		                      << " header.height=" << header.height;
 	}
 	BinaryArray ba = seria::to_binary(header);

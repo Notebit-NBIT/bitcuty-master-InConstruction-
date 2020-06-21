@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include <iostream>
@@ -85,7 +85,7 @@ bool Node::on_binary_rpc(http::Client *who, http::RequestBody &&request, http::R
 
 bool Node::on_getblocktemplate(http::Client *who, http::RequestBody &&raw_request, json_rpc::Request &&raw_js_request,
     api::cnd::GetBlockTemplate::Request &&req, api::cnd::GetBlockTemplate::Response &res) {
-	if (!m_config.good_bytecoind_auth_private(raw_request.r.basic_authorization))
+	if (!m_config.good_bitcutyd_auth_private(raw_request.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization-private");
 	api::cnd::GetStatus::Request sta;
 	sta.top_block_hash                       = req.top_block_hash;
@@ -149,7 +149,7 @@ void Node::getblocktemplate(const api::cnd::GetBlockTemplate::Request &req, api:
 	res.top_block_hash           = m_block_chain.get_tip_bid();
 	res.transaction_pool_version = m_block_chain.get_tx_pool_version();
 	res.previous_block_hash      = m_block_chain.get_tip().previous_block_hash;
-#if bytecoin_ALLOW_CM
+#if bitcuty_ALLOW_CM
 	// Experimental, a bit hacky
 	if (block_template.major_version >= m_block_chain.get_currency().amethyst_block_version) {
 		try {
@@ -171,7 +171,7 @@ bool Node::on_get_currency_id(http::Client *, http::RequestBody &&, json_rpc::Re
 
 bool Node::on_submitblock_legacy(http::Client *who, http::RequestBody &&rd, json_rpc::Request &&jr,
     api::cnd::SubmitBlockLegacy::Request &&req, api::cnd::SubmitBlockLegacy::Response &res) {
-	if (!m_config.good_bytecoind_auth_private(rd.r.basic_authorization))
+	if (!m_config.good_bitcutyd_auth_private(rd.r.basic_authorization))
 		throw http::ErrorAuthorization("authorization-private");
 	if (req.size() != 1)
 		throw json_rpc::Error{json_rpc::INVALID_PARAMS, "Request params should be an array with exactly 1 element"};

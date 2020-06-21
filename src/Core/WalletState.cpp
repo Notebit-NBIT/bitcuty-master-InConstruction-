@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "WalletState.hpp"
@@ -39,7 +39,7 @@ Amount WalletState::DeltaState::add_incoming_keyimage(Height height, const KeyIm
 void WalletState::DeltaState::add_transaction(
     Height, const Hash &tid, const PreparedWalletTransaction &pwtx, const api::Transaction &ptx) {
 	// We replace transactions in mempool routinely
-	// 1. when they are added from PQ, then come from bytecoind
+	// 1. when they are added from PQ, then come from bitcutyd
 	// 2. when we push block with keyimage used by some transaction (can happen during sync with lagged daemon)
 	undo_transaction(tid);
 	invariant(m_transactions.insert(std::make_pair(tid, DeltaStateTransaction{pwtx, ptx, std::set<KeyImage>{}})).second,
@@ -179,7 +179,7 @@ void WalletState::wallet_addresses_updated() {
 		m_log(logging::ERROR)
 		    << "Exception in wallet_addresses_updated, probably out of disk space or database corrupted error="
 		    << common::what(ex) << " path=" << m_db.get_path();
-		std::exit(api::BYTECOIND_DATABASE_ERROR);
+		std::exit(api::BITCUTYD_DATABASE_ERROR);
 	}
 	fix_payment_queue_after_undo_redo();
 	db_commit();
@@ -400,7 +400,7 @@ bool WalletState::sync_with_blockchain(const PreparedWalletBlock &pb, Height top
 		m_log(logging::ERROR)
 		    << "Exception in sync_with_blockchain, probably out of disk space or database corrupted error="
 		    << common::what(ex) << " path=" << m_db.get_path();
-		std::exit(api::BYTECOIND_DATABASE_ERROR);
+		std::exit(api::BITCUTYD_DATABASE_ERROR);
 	}
 	return true;
 }
@@ -677,7 +677,7 @@ bool WalletState::redo_transaction(const PreparedWalletTransaction &pwtx, const 
 	if (!ours && !updating_pool)
 		return false;
 	// We add all transactions in pool, because
-	// We may not generally know if transaction is ours or not if bytecoind is lagged
+	// We may not generally know if transaction is ours or not if bitcutyd is lagged
 	// If we then discover our output with keyimage in pool, we will reapply that transaction
 	ptx.block_hash = bid;
 	ptx.timestamp  = tx_timestamp;

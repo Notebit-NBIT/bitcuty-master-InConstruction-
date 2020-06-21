@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcuty developers HB1team.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #pragma once
@@ -115,18 +115,18 @@ protected:
 	Timestamp m_last_stat_request_time = 0;
 	// Prevent replay attacks by only trusting requests with timestamp > than previous request
 
-	class P2PProtocolBytecoin;
+	class P2PProtocolBitcuty;
 	struct DownloadInfo {
 		size_t chain_counter                 = 0;
-		P2PProtocolBytecoin *who_downloading = nullptr;
+		P2PProtocolBitcuty *who_downloading = nullptr;
 		Height expected_height               = 0;  // Set during download
 		bool preparing                       = false;
 	};
 	std::map<Hash, DownloadInfo> chain_blocks;
 	void remove_chain_block(std::map<Hash, DownloadInfo>::iterator it);
-	std::map<Hash, P2PProtocolBytecoin *> downloading_transactions;
+	std::map<Hash, P2PProtocolBitcuty *> downloading_transactions;
 
-	class P2PProtocolBytecoin : public P2PProtocolBasic {
+	class P2PProtocolBitcuty : public P2PProtocolBasic {
 		Node *const m_node;
 		void after_handshake();
 
@@ -171,31 +171,31 @@ protected:
 		void on_msg_notify_new_block(p2p::RelayBlock::Notify &&) override;
 		void on_msg_notify_new_transactions(p2p::RelayTransactions::Notify &&) override;
 		void on_msg_notify_checkpoint(p2p::Checkpoint::Notify &&) override;
-#if bytecoin_ALLOW_DEBUG_COMMANDS
+#if bitcuty_ALLOW_DEBUG_COMMANDS
 		void on_msg_stat_info(p2p::GetStatInfo::Request &&) override;
 #endif
 	public:
-		explicit P2PProtocolBytecoin(Node *node, P2PClient *client);
-		~P2PProtocolBytecoin() override;
+		explicit P2PProtocolBitcuty(Node *node, P2PClient *client);
+		~P2PProtocolBitcuty() override;
 		void advance_chain();
 		void advance_blocks();
 		bool on_idle(std::chrono::steady_clock::time_point idle_start);
 		void advance_transactions();
 	};
 	std::unique_ptr<P2PProtocol> client_factory(P2PClient *client) {
-		return std::make_unique<P2PProtocolBytecoin>(this, client);
+		return std::make_unique<P2PProtocolBitcuty>(this, client);
 	}
 
 	std::chrono::steady_clock::time_point log_request_timestamp;
 	std::chrono::steady_clock::time_point log_response_timestamp;
 
 	void advance_all_downloads();
-	std::set<P2PProtocolBytecoin *> m_broadcast_protocols;
+	std::set<P2PProtocolBitcuty *> m_broadcast_protocols;
 
 	BlockPreparatorMulticore m_pow_checker;
 	// TODO - periodically clear m_pow_checker of blocks that were not asked
 
-	void broadcast(P2PProtocolBytecoin *exclude, const BinaryArray &data);
+	void broadcast(P2PProtocolBitcuty *exclude, const BinaryArray &data);
 
 	void fill_cors(const http::RequestBody &req, http::ResponseBody &res);
 	bool on_api_http_request(http::Client *, http::RequestBody &&, http::ResponseBody &);

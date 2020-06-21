@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "Config.hpp"
@@ -53,7 +53,7 @@ Config::Config(common::CommandLine &cmd)
     , blocks_file_name(BLOCKS_FILENAME)
     , block_indexes_file_name(BLOCKINDEXES_FILENAME)
     , crypto_note_name(CRYPTONOTE_NAME)
-    , network_id(BYTECOIN_NETWORK)
+    , network_id(BITCUTY_NETWORK)
     , p2p_bind_port(P2P_DEFAULT_PORT)
     , p2p_external_port(P2P_DEFAULT_PORT)
     , p2p_bind_ip("0.0.0.0")
@@ -62,10 +62,10 @@ Config::Config(common::CommandLine &cmd)
     , multicast_port(P2P_DEFAULT_PORT)
     , multicast_period(net == "main" ? 0 : 60.0f)  // No multicast in main net due to anonymity
     , secrets_via_api(cmd.get_bool("--secrets-via-api"))
-    , bytecoind_cors_asterisk(cmd.get_bool("--CORS"))  // Experimental, for public nodes
-    , bytecoind_bind_port(RPC_DEFAULT_PORT)
-    , bytecoind_bind_ip("127.0.0.1")  // Less attack vectors from outside for ordinary uses
-    , bytecoind_remote_ip("127.0.0.1")
+    , bitcutyd_cors_asterisk(cmd.get_bool("--CORS"))  // Experimental, for public nodes
+    , bitcutyd_bind_port(RPC_DEFAULT_PORT)
+    , bitcutyd_bind_ip("127.0.0.1")  // Less attack vectors from outside for ordinary uses
+    , bitcutyd_remote_ip("127.0.0.1")
     , walletd_bind_port(WALLET_RPC_DEFAULT_PORT)
     , walletd_bind_ip("127.0.0.1")  // Connection to wallet allows spending
     , rpc_sync_blocks_max_count(api::cnd::SyncBlocks::Request::MAX_COUNT)
@@ -77,7 +77,7 @@ Config::Config(common::CommandLine &cmd)
 		network_id.data[0] += 1;
 		p2p_bind_port += 1000;
 		p2p_external_port += 1000;
-		bytecoind_bind_port += 1000;
+		bitcutyd_bind_port += 1000;
 		walletd_bind_port += 1000;
 		multicast_port += 1000;
 		if (const char *pa = cmd.get("--time-multiplier"))
@@ -88,7 +88,7 @@ Config::Config(common::CommandLine &cmd)
 		network_id.data[0] += 2;
 		p2p_bind_port += 2000;
 		p2p_external_port += 2000;
-		bytecoind_bind_port += 2000;
+		bitcutyd_bind_port += 2000;
 		walletd_bind_port += 2000;
 		multicast_port += 2000;
 	}
@@ -104,14 +104,14 @@ Config::Config(common::CommandLine &cmd)
 		    ConfigError("Command line option --walletd-bind-address has wrong format"));
 	}
 	if (const char *pa = cmd.get("--" CRYPTONOTE_NAME "d-authorization")) {
-		bytecoind_authorization         = common::base64::encode(BinaryArray(pa, pa + strlen(pa)));
-		bytecoind_authorization_private = bytecoind_authorization;
+		bitcutyd_authorization         = common::base64::encode(BinaryArray(pa, pa + strlen(pa)));
+		bitcutyd_authorization_private = bitcutyd_authorization;
 	}
 	if (const char *pa = cmd.get("--" CRYPTONOTE_NAME "d-authorization-private")) {
-		bytecoind_authorization_private = common::base64::encode(BinaryArray(pa, pa + strlen(pa)));
+		bitcutyd_authorization_private = common::base64::encode(BinaryArray(pa, pa + strlen(pa)));
 	}
 	if (const char *pa = cmd.get("--" CRYPTONOTE_NAME "d-bind-address")) {
-		ewrap(common::parse_ip_address_and_port(pa, &bytecoind_bind_ip, &bytecoind_bind_port),
+		ewrap(common::parse_ip_address_and_port(pa, &bitcutyd_bind_ip, &bitcutyd_bind_port),
 		    ConfigError("Command line option --" CRYPTONOTE_NAME "d-bind-address has wrong format"));
 	}
 	if (const char *pa = cmd.get("--" CRYPTONOTE_NAME "d-remote-address")) {
@@ -132,13 +132,13 @@ Config::Config(common::CommandLine &cmd)
 			std::string sport;
 			if (!split_string(addr.substr(prefix.size()), ":", sip, sport))
 				throw ConfigError(emsg);
-			bytecoind_remote_port = common::integer_cast<uint16_t>(sport);
-			bytecoind_remote_ip   = prefix + sip;
+			bitcutyd_remote_port = common::integer_cast<uint16_t>(sport);
+			bitcutyd_remote_ip   = prefix + sip;
 		} else {
 			const std::string prefix2 = "http://";
 			if (common::starts_with(addr, prefix2))
 				addr = addr.substr(prefix2.size());
-			ewrap(common::parse_ip_address_and_port(addr, &bytecoind_remote_ip, &bytecoind_remote_port),
+			ewrap(common::parse_ip_address_and_port(addr, &bitcutyd_remote_ip, &bitcutyd_remote_port),
 			    ConfigError(emsg));
 		}
 	}
@@ -182,11 +182,11 @@ Config::Config(common::CommandLine &cmd)
 #endif
 }
 
-bool Config::good_bytecoind_auth(const std::string &auth) const {
-	return bytecoind_authorization.empty() || auth == bytecoind_authorization || good_bytecoind_auth_private(auth);
+bool Config::good_bitcutyd_auth(const std::string &auth) const {
+	return bitcutyd_authorization.empty() || auth == bitcutyd_authorization || good_bitcutyd_auth_private(auth);
 }
-bool Config::good_bytecoind_auth_private(const std::string &auth) const {
-	return bytecoind_authorization_private.empty() || auth == bytecoind_authorization_private;
+bool Config::good_bitcutyd_auth_private(const std::string &auth) const {
+	return bitcutyd_authorization_private.empty() || auth == bitcutyd_authorization_private;
 }
 
 bool Config::use_multicast() const { return multicast_period != 0 && p2p_bind_ip != "127.0.0.1"; }
@@ -194,7 +194,7 @@ bool Config::use_multicast() const { return multicast_period != 0 && p2p_bind_ip
 std::string Config::prepare_usage(const std::string &usage) {
 	std::string result = usage;
 	boost::replace_all(result, "%appdata%/", platform_DEFAULT_DATA_FOLDER_PATH_PREFIX);
-	boost::replace_all(result, "bytecoin", CRYPTONOTE_NAME);
+	boost::replace_all(result, "bitcuty", CRYPTONOTE_NAME);
 	boost::replace_all(result, "blocks.bin", BLOCKS_FILENAME);
 	boost::replace_all(result, "blockindexes.bin", BLOCKINDEXES_FILENAME);
 	boost::replace_all(result, "8080", common::to_string(P2P_DEFAULT_PORT));

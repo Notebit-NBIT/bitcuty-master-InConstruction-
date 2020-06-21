@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcuty developers HB1team.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #pragma once
@@ -50,15 +50,15 @@ public:
 	bool secrets_via_api;
 	bool use_multicast() const;
 
-	std::string bytecoind_authorization;
-	std::string bytecoind_authorization_private;
-	bool bytecoind_cors_asterisk = false;
-	bool good_bytecoind_auth(const std::string &auth) const;
-	bool good_bytecoind_auth_private(const std::string &auth) const;
-	uint16_t bytecoind_bind_port;
-	std::string bytecoind_bind_ip;
-	uint16_t bytecoind_remote_port = 0;
-	std::string bytecoind_remote_ip;
+	std::string bitcutyd_authorization;
+	std::string bitcutyd_authorization_private;
+	bool bitcutyd_cors_asterisk = false;
+	bool good_bitcutyd_auth(const std::string &auth) const;
+	bool good_bitcutyd_auth_private(const std::string &auth) const;
+	uint16_t bitcutyd_bind_port;
+	std::string bitcutyd_bind_ip;
+	uint16_t bitcutyd_remote_port = 0;
+	std::string bitcutyd_remote_ip;
 
 	size_t max_pool_size              = 4 * 1000 * 1000;
 	size_t max_undo_transactions_size = 200 * 1000 * 1000;

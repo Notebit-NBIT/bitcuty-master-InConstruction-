@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "BlockChain.hpp"
@@ -96,7 +96,7 @@ void PreparedBlock::prepare(const Currency &currency, crypto::CryptoNightContext
 			throw ConsensusError(common::to_string(
 			    "Wrong merge mining merkle root, tag", mm_tag.merkle_root, "actual", aux_blocks_merkle_root));
 	}
-#if bytecoin_ALLOW_CM
+#if bitcuty_ALLOW_CM
 	if (block.header.is_cm_mined()) {
 		if (!crypto::cm_branch_valid(block.header.cm_merkle_branch))
 			throw ConsensusError("CM branch invalid");
@@ -233,7 +233,7 @@ bool BlockChain::add_block(
 	} catch (const std::exception &ex) {
 		m_log(logging::ERROR) << "Exception while reorganizing blockchain, probably out of disk space ex.what="
 		                      << common::what(ex) << ", database corrupted, please delete " << m_db.get_path();
-		std::exit(api::BYTECOIND_DATABASE_ERROR);
+		std::exit(api::BITCUTYD_DATABASE_ERROR);
 	}
 	if (get_tip_height() % m_config.db_commit_every_n_blocks ==
 	    m_config.db_commit_every_n_blocks - 1)  // no commit on genesis
@@ -1266,7 +1266,7 @@ void BlockChain::fill_statistics(api::cnd::GetStatistics::Response &res) const {
 bool BlockChain::fill_next_block_versions(
     const api::BlockHeader &prev_info, uint8_t *major_mm, uint8_t *major_cm) const {
 	*major_cm = *major_mm = m_currency.get_block_major_version_for_height(prev_info.height + 1);
-#if bytecoin_ALLOW_CM
+#if bitcuty_ALLOW_CM
 	if (*major_cm >= m_currency.amethyst_block_version)
 		*major_cm += 1;
 #endif
@@ -1280,7 +1280,7 @@ bool BlockChain::fill_next_block_versions(
 	if (!bit->second.upgrade_decided_height || prev_info.height + 1 < bit->second.upgrade_decided_height)
 		return true;
 	*major_cm = *major_mm = m_currency.upgrade_desired_major;
-#if bytecoin_ALLOW_CM
+#if bitcuty_ALLOW_CM
 	if (*major_cm >= m_currency.amethyst_block_version)
 		*major_cm += 1;
 #endif

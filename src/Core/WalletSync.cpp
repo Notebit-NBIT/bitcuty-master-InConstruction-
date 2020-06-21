@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "WalletSync.hpp"
@@ -25,8 +25,8 @@ WalletSync::WalletSync(logging::ILogger &log, WalletState &wallet_state, std::fu
     , m_config(wallet_state.get_config())
     , m_currency(wallet_state.get_currency())
     , m_status_timer(std::bind(&WalletSync::advance_sync, this))
-    , m_sync_agent(m_config.bytecoind_remote_ip,
-          m_config.bytecoind_remote_port ? m_config.bytecoind_remote_port : m_config.bytecoind_bind_port)
+    , m_sync_agent(m_config.bitcutyd_remote_ip,
+          m_config.bitcutyd_remote_port ? m_config.bitcutyd_remote_port : m_config.bitcutyd_bind_port)
     , m_wallet_state(wallet_state)
     , preparator(m_wallet_state.get_wallet().get_hw(), m_wallet_state.get_wallet().get_output_handler(),
           m_wallet_state.get_wallet().get_view_secret_key(), std::bind(&WalletSync::on_prepared_block, this, _1),
@@ -97,7 +97,7 @@ void WalletSync::send_get_status() {
 	req.lower_level_error        = m_last_node_status.lower_level_error;
 
 	http::RequestBody req_header     = json_rpc::create_request(api::cnd::url(), api::cnd::GetStatus::method(), req);
-	req_header.r.basic_authorization = m_config.bytecoind_authorization;
+	req_header.r.basic_authorization = m_config.bitcutyd_authorization;
 
 	m_sync_request = std::make_unique<http::Request>(m_sync_agent, std::move(req_header),
 	    [&](http::ResponseBody &&response) {
@@ -178,7 +178,7 @@ void WalletSync::send_sync_pool() {
 	msg.known_hashes = m_wallet_state.get_tx_pool_hashes();
 	http::RequestBody req_header;
 	req_header.r.set_firstline("POST", api::cnd::binary_url(), 1, 1);
-	req_header.r.basic_authorization = m_config.bytecoind_authorization;
+	req_header.r.basic_authorization = m_config.bitcutyd_authorization;
 	req_header.set_body(json_rpc::create_binary_request_body(api::cnd::SyncMemPool::bin_method(), msg));
 	m_sync_request = std::make_unique<http::Request>(m_sync_agent, std::move(req_header),
 	    [&](http::ResponseBody &&response) {
@@ -223,7 +223,7 @@ void WalletSync::send_sync_pool() {
 void WalletSync::send_get_blocks() {
 	m_log(logging::TRACE) << "Sending SyncBlocks request";
 	http::RequestBody req_header;
-	req_header.r.basic_authorization = m_config.bytecoind_authorization;
+	req_header.r.basic_authorization = m_config.bitcutyd_authorization;
 	// Reset to static, but use rpc call first time on empty wallet state
 	// (We do not know block number for creation timestamp of wallet, so have to ask node)
 	// We ignore next_sparse_chain because after reset beyond history we must start from rpc again
@@ -328,7 +328,7 @@ bool WalletSync::send_send_transaction() {
 	m_sending_transaction_hash = m_next_send_hash;
 	m_log(logging::INFO) << "Sending transaction from payment queue " << m_sending_transaction_hash;
 	http::RequestBody new_request = json_rpc::create_request(api::cnd::url(), api::cnd::SendTransaction::method(), msg);
-	new_request.r.basic_authorization = m_config.bytecoind_authorization;
+	new_request.r.basic_authorization = m_config.bitcutyd_authorization;
 	m_sync_request                    = std::make_unique<http::Request>(m_sync_agent, std::move(new_request),
         [&](http::ResponseBody &&response) {
             m_sync_request.reset();
