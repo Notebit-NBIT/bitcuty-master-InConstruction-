@@ -86,10 +86,17 @@ $bcutydev> git clone https://github.com/bcutydev/bitcuty.git
 
 Create build directory inside bitcuty, go there and run CMake and Make:
 ```
-$bcutydev> mkdir -p bitcuty/build
-$bcutydev> cd bitcuty/build
-$bcutydev/bitcuty/build> cmake ..
-$bcutydev/bitcuty/build> make -j8
+$bcutydev> mkdir -p bitcuty/build                                                  # create bitcuty build file
+$bcutydev> cd bitcuty/build                                                        # login to bitcuty build file
+$bcutydev/bitcuty/build> cmake ..                                                  # cmake prepare and preboot file bitcuty
+$bcutydev/bitcuty/build> sudo su                                                   # install bitcuty on root mode
+$bcutydev/bitcuty/build> sudo apt -f install                                       # add and complet all essential file
+$bcutydev/bitcuty/build> sudo apt install -f                                       # add and complet all essential file 
+$bcutydev/bitcuty/build> sudo apt install depends bcutydev/bitcuty                 # install bitcuty dependency
+$bcutydev/bitcuty/build> mount                                                     # mount all bitcuty file in directory
+$bcutydev/bitcuty/build> make -j8 -e --include-dir=/src/CryptoNoteConfig.hpp -k -i # build with main properties file
+$bcutydev/bitcuty/build> make -j8 -B --always-make -i -k --assume-new=*            # build with every new creation
+$bcutydev/bitcuty/build> make -j8                                                  # build regular mount file
 ```
 
 Check built binaries by running them from `../bin` folder
