@@ -42,7 +42,7 @@ CRYPTONOTE-GENERATOR
 
 	"MINIMUM_FEE":1000000,   // 10^8. Equals to 0.01 in Bitcuty||BCUTY||@BCUTY
 	"DEFAULT_DUST_THRESHOLD":1000000,
-	"COIN":100000000*,    // Number of atom units in a coin. 10^8 in Bitcuty
+	"COIN":10000000*,    // Number of atom units in a coin. 10^8 in Bitcuty
 	"CRYPTONOTE_DISPLAY_DECIMAL_POINT":8,    // The pow from the previews value
 
 	"CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW":96,    // in blocks
