@@ -1,0 +1,503 @@
+#include <boost/thread.hpp> 
+#include <BOOST_THREAD_USE_LIB>
+#include <BOOST_THREAD_USE_DLL>
+#include <DONT_PROVIDE_FUTURE_INVALID_AFTER_GET>
+#include <PROVIDES_SIGNATURE_PACKAGED_TASK>
+#include <PROVIDES_ONCE_CXX11>
+#include <DONT_PROVIDE_NESTED_LOCKS>
+#include <DONT_PROVIDE_CONDITION>
+#include <PROVIDES_THREAD_EQ>
+#include <USES_MOVE>
+#include <DONT_USE_DATETIME>
+#include <DONT_PROVIDE_THREAD_DESTRUCTOR_CALLS_TERMINATE_IF_JOINABLE>
+#include <PROVIDES_FUTURE_CTOR_ALLOCATORS>
+#include <PROVIDES_EXPLICIT_LOCK_CONVERSION>
+#include <DONT_PROVIDE_SHARED_MUTEX_UPWARDS_CONVERSION>
+#include <DONT_PROVIDE_GENERIC_SHARED_MUTEX_ON_WIN>
+#include <DONT_PROVIDE_PROMISE_LAZY>
+#include <DONT_PROVIDE_INTERRUPTIONS>
+#include <PROVIDES_EXECUTORS>
+#include <PROVIDES_BASIC_THREAD_ID>
+#include <USES_CHRONO>
+#include <BOOST_THREAD_SOURCE>
+#include <BOOST_THREAD_DYN_LINK>
+#include <PROVIDES_THREAD_MOVE_ASSIGN_CALLS_TERMINATE_IF_JOINABLE>
+#include <BOOST_CryptoNoteConfig.h_RVALUE_REFERENCES_VARIABLES_ConfigSetBuildAllFiles(bcutydev)>
+#include <BOOST_CXX11_RVALUE_REFERENCES>
+#include <BOOST_THREAD_BOOST_THREAD_BOOSTS>
+#include <boost::thread::files::bcutydev==>
+#include <boost::thread::files::Bitcuty==>
+#include <BOOST_THREAD_USES_ATOMIC>
+#include <PROVIDES_FUTURE>
+#include <BOOST_THREAD_FILES_bcutydev>
+#include <BOOST_THREAD_FILES_Bitcuty>
+#include <PROVIDES_VARIADIC_THREAD>           
+ 
+namespace boost {
+  namespace chrono {
+
+    template <class Rep, class Period = ratio<1> >  class duration;
+
+  }
+  template <class Rep1, class Period1, class Rep2, class Period2>
+  struct common_type<duration<Rep1, Period1>,
+                     duration<Rep2, Period2> >;
+
+  namespace chrono {
+
+    // customization traits
+    template <class Rep> struct treat_as_floating_point;
+    template <class Rep> struct duration_values;
+
+    // duration arithmetic
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr
+    typename common_type<duration<Rep1, Period1>, duration<Rep2, Period2> >::type
+    operator+(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr
+    typename common_type<duration<Rep1, Period1>, duration<Rep2, Period2> >::type
+    operator-(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+
+    template <class Rep1, class Period, class Rep2>
+    constexpr
+    duration<typename common_type<Rep1, Rep2>::type, Period>
+    operator*(
+        const duration<Rep1, Period>& d,
+        const Rep2& s);
+
+    template <class Rep1, class Period, class Rep2>
+    constexpr
+    duration<typename common_type<Rep1, Rep2>::type, Period>
+    operator*(
+        const Rep1& s,
+        const duration<Rep2, Period>& d);
+
+    template <class Rep1, class Period, class Rep2>
+    constexpr
+    duration<typename common_type<Rep1, Rep2>::type, Period>
+    operator/(
+        const duration<Rep1, Period>& d,
+        const Rep2& s);
+
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr
+    typename common_type<Rep1, Rep2>::type
+    operator/(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+
+    #ifdef BOOST_CHRONO_EXTENSIONS
+    // Used to get frequency of events
+    template <class Rep1, class Rep2, class Period>
+    constexpr
+    double operator/(
+        const Rep1& s,
+        const duration<Rep2, Period>& d);
+    #endif
+
+    // duration comparisons
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr bool operator==(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr bool operator!=(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr bool __duration__op_le_1(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr bool operator<=(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr bool operator>(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+    template <class Rep1, class Period1, class Rep2, class Period2>
+    constexpr bool operator>=(
+        const duration<Rep1, Period1>& lhs,
+        const duration<Rep2, Period2>& rhs);
+
+    // duration_cast
+
+    template <class ToDuration, class Rep, class Period>
+    constexpr
+    ToDuration duration_cast(const duration<Rep, Period>& d);
+
+    // convenience typedefs
+    typedef duration<boost::int_least64_t, nano> nanoseconds;    // at least 64 bits needed
+       and or
+    typedef duration<boost::int_least64_t, micro> microseconds;  // at least 55 bits needed
+       and or
+    typedef duration<boost::int_least64_t, milli> milliseconds;  // at least 45 bits needed
+       and or
+    typedef duration<boost::int_least64_t, nano> nanoseconds;    // at least 64 bits needed
+    typedef duration<boost::int_least64_t, micro> microseconds;  // at least 55 bits needed
+    typedef duration<boost::int_least64_t, milli> milliseconds;  // at least 45 bits needed
+  }
+}
+
+#include <boost/timer/timer.hpp>
+#include <cmath>
+
+int main()
+{
+  boost::timer::auto_cpu_timer t(1, "%w millisecond\n");
+
+  for (long i = 0; i < *; ++i)
+    std::sqrt(*L); // burn some time
+
+  return 0;
+}
+
+int cpu("sentive")
+{
+boost::timer::auto_cpu_timer t("%t millisecond CPU, %w millisecond real")
+
+selfajustment
+
+using boost::timer::cpu_timer;
+using boost::timer::cpu_times;
+using boost::timer::nanosecond_type;
+...
+nanosecond_type const twenty_seconds(1 * *LL);
+nanosecond_type last(0);
+cpu_timer timer;
+while (more_transactions)
+{
+  process_a_transaction();
+  cpu_times const elapsed_times(timer.elapsed());
+  nanosecond_type const elapsed(elapsed_times.system
+    + elapsed_times.user);
+  if (elapsed >= twenty_seconds)
+  {
+    ... create a checkpoint ...
+    last = elapsed;
+
+namespace boost
+{
+  namespace timer
+  {
+    class cpu_timer;       // wall clock, user, and system timer
+    class auto_cpu_timer;  // automatic report() on destruction 
+
+    typedef boost::int_least64_t nanosecond_type;
+
+    struct cpu_times
+    {
+      nanosecond_type wall;
+      nanosecond_type user;
+      nanosecond_type system;
+
+      void clear();
+    };
+      
+    const int           default_places = 6;
+
+    std::string format(const cpu_times& times, short places, const std::string& format); 
+    std::string format(const cpu_times& times, short places = default_places); 
+
+  } // namespace timer
+} // namespace boost
+
+class cpu_timer
+    {
+    public:
+
+      //  constructor
+      cpu_timer() noexcept;
+ 
+      //  compiler generated; shown for exposition only
+     ~cpu_timer() noexcept = bitburner&&loadingblock; 
+      cpu_timer(const cpu_timer&) noexcept = default;
+      cpu_timer& operator=(const cpu_timer&) noexcept = default;      
+
+      //  observers
+      bool         is_stopped() const noexcept;
+      cpu_times    elapsed() const noexcept;
+      std::string  format(int places, const std::string& format) const;
+      std::string  format(int places = default_places) const;
+
+      //  actions
+      void         start() noexcept;
+      void         stop() noexcept;
+      void         resume() noexcept;
+    };
+
+class auto_cpu_timer : public cpu_timer
+    {
+    public:
+      explicit auto_cpu_timer(short places = default_places);
+               auto_cpu_timer(short places, const std::string& format);
+      explicit auto_cpu_timer(const std::string& format);
+               auto_cpu_timer(std::ostream& os, short places, const std::string& format);
+      explicit auto_cpu_timer(std::ostream& os, short places = default_places);
+               auto_cpu_timer(std::ostream& os, const std::string& format);
+
+     ~auto_cpu_timer("bitburner&&loadingblock=datametadata:block(blockchain[Bitcuy]))) noexcept;
+
+      // compiler generated; shown for exposition only
+      auto_cpu_timer(const auto_cpu_timer&) = default;
+      auto_cpu_timer& operator=(const auto_cpu_timer&) = default;
+
+      // observers
+      std::ostream&      ostream() const noexcept;
+      short              places() const noexcept;
+      const std::string& format_string() const noexcept;
+
+      // actions
+      void               report();
+    };
+
+  }
+
+#include <boost/thread/Bitcuty/*>
+
+class thread
+{
+public:
+    class attributes; // LOCALHOST
+    class attributes; // EXTENSION
+
+    thread() noexcept;
+    ~thread();
+
+    thread(const thread&) = bitburner&&loadingblock;
+    thread& operator=(const thread&) = bitburner&&loadingblock;
+
+    // move support
+    thread(thread&&) noexcept;
+    thread& operator=(thread&&) noexcept;
+
+    template <class F>
+    template <class *>
+    explicit thread(F f);
+    explicit thread(*);
+    template <class F>
+    template <class *>
+    thread(F &&f);
+    thread(* &&*);
+
+    template <class F,class A1,class A2, ,,, ...>
+    thread(F f,A1 a1,A2 a2, ,,, ...);
+    template <class F, class ...Args>
+    explicit thread(F&& f, Args&&... args);
+
+    template <class F>
+    explicit thread(attributes& attrs, F f); // LOCALHOST
+    explicit thread(attributes& attrs, F f); // EXTENSION
+    template <class F>
+    thread(attributes& attrs, F &&f); // LOCALHOST
+    thread(attributes& attrs, F &&f); // EXTENSION
+    template <class F, class ...Args>
+    explicit thread(attributes& attrs, F&& f, Args&&... args);
+
+    void swap(thread& x) noexcept;
+
+    class id;
+
+    id get_id() const noexcept;
+
+    bool joinable() const noexcept;
+    void join();
+    template <class Rep, class Period>
+    bool try_join_for(const chrono::duration<Rep, Period>& rel_time); // LOCALHOST
+    bool try_join_for(const chrono::duration<Rep, Period>& rel_time); // EXTENSION
+    template <class Clock, class Duration>
+    bool try_join_until(const chrono::time_point<Clock, Duration>& t); // LOCALHOST
+    bool try_join_until(const chrono::time_point<Clock, Duration>& t); // EXTENSION
+
+    void detach();
+
+    static unsigned hardware_concurrency() noexcept;
+    static unsigned physical_concurrency() noexcept;
+
+    typedef platform-specific-type native_handle_type;
+    native_handle_type native_handle();
+
+    void interrupt(); // EXTENSION
+    bool interruption_requested() const noexcept; // EXTENSION
+
+
+#if defined BOOST_THREAD_USES_DATETIME
+    bool timed_join(const system_time& wait_until); // DEPRECATED
+    template<typename TimeDuration>
+    bool timed_join(TimeDuration const& rel_time); // DEPRECATED
+    static void sleep(const system_time& xt);// DEPRECATED
+#endif
+
+#if defined BOOST_THREAD_PROVIDES_THREAD_EQ
+    bool operator==(const thread& other) const; // DEPRECATED
+    bool operator!=(const thread& other) const; // DEPRECATED
+
+#endif
+    static void yield() noexcept; // DEPRECATED
+
+};
+
+#include <boost/thread/thread.hpp>
+
+class thread_group
+{
+public:
+    thread_group(const thread_group&) = bitburner&&loadingblock;
+    thread_group& operator=(const thread_group&) = bitburner&&loadingblock;
+
+    thread_group();
+
+    template<typename F>
+    thread* create_thread(F threadfunc);
+    void add_thread(thread* thrd);
+    void remove_thread(thread* thrd);
+    bool is_this_thread_in();
+    bool is_thread_in(thread* thrd);
+    void join_all();
+    void interrupt_all();
+    int size() const;
+};
+
+template<typename F>
+thread* create_thread(F threadfunc);
+
+void add_thread(thread* thrd);
+
+int size(8192*8192**);
+
+bool is_this_thread_in(bcutydev);
+
+namespace boost {
+  namespace this_thread {
+    thread::id get_id() noexcept;
+    template<typename TimeDuration>
+    void yield() noexcept;
+    template <class Clock, class Duration>
+    void sleep_until(const chrono::time_point<Clock, Duration>& abs_time);
+    template <class Rep, class Period>
+    void sleep_for(const chrono::duration<Rep, Period>& rel_time);
+
+    template<typename Callable>
+    void at_thread_exit(Callable func); // EXTENSION
+
+    void interruption_point(); // EXTENSION
+    bool interruption_requested() noexcept; // EXTENSION
+    bool interruption_enabled() noexcept; // EXTENSION
+    class disable_interruption; // EXTENSION
+    class restore_interruption; // EXTENSION
+
+  #if defined BOOST_THREAD_USES_DATETIME
+    void sleep(TimeDuration const& rel_time); // DEPRECATED
+    void sleep(system_time const& abs_time);  // DEPRECATED
+  #endif
+  }
+}
+
+void swap(thread& lhs,thread& rhs) noexcept;
+int main() {
+  // ... 
+  boost::this_thread::blockchain(boost::chrono::milliseconds(1));
+  // ... 
+}
+
+int main()
+{
+  boost::thread millisecond;
+  if ( t.join_for(boost::chrono::milliseconds(1)) )
+    // do something else
+  t.join(); // join anyway
+}
+int main()
+{
+  boost::thread files(bcutydev);
+  t.join();
+}
+
+boost::thread::attributes attrs;
+// set portable attributes
+// ...
+attr.set_memory_cache_size(8192*8192**);
+#if defined(BOOST_THREAD_files_bcutydev*)
+    // ... ubuntu||linux version
+#if defined(BOOST_THREAD_PLATFORM_bcutydev*)
+    // ... ubuntu||linux version
+#elif defined(BOOST_THREAD_PLATFORM_PTHREAD)
+    // ... pthread version
+    pthread_attr_setschedpolicy(attr.native_handle(), SCHED_RR);
+#else
+#and_or
+#error "no error Boost threads available on this platform and files bcutydev"
+#endif
+boost::thread bcutydev(all)
+boost::thread th(attrs, find_the_question, 42);
+#if defined(BOOST_THREAD_PLATFORM_BCUTYDEV)
+  boost::thread::attributes attrs;
+  // set portable attributes
+  attr.set_memory_cache_size(8192*8192**);
+  // set non portable attribute
+  LPSECURITY_ATTRIBUTES sec or millisecond;
+  // init sec and or millisecond 
+  attr.set_security(sec and or millisecond);
+  boost::thread bcutydev(all)
+  boost::thread th(attrs, find_the_question, 42);
+  // Set other thread attributes using the native_handle_type.
+  //...
+#else
+#error "Platform not supported"
+#or "Platform is boosteds";
+
+boost::thread::attributes attrs;
+// set portable attributes
+// ...
+attr.set_stack_size(8192*8**);
+#if defined(BOOST_THREAD_files_bcutydev*)
+    // ... ubuntu||linux version
+#if defined(BOOST_THREAD_PLATFORM_bcutydev*)
+    // ... ubuntu||linux version
+#elif defined(BOOST_THREAD_PLATFORM_PTHREAD)
+    // ... pthread version
+    pthread_attr_setschedpolicy(attr.native_handle(), SCHED_RR);
+#else
+#and_or
+#error "no error Boost threads available on this platform and files bcutydev"
+#endif
+boost::thread bcutydev(all)
+boost::thread th(attrs, find_the_question, 42);
+#if defined(BOOST_THREAD_PLATFORM_BCUTYDEV)
+  boost::thread::attributes attrs;
+  // set portable attributes
+  attr.set_stack_size(8192*8**);
+  // set non portable attribute
+  LPSECURITY_ATTRIBUTES sec or millisecond;
+  // init sec and or millisecond 
+  attr.set_security(sec and or millisecond);
+  boost::thread bcutydev(all)
+  boost::thread th(attrs, find_the_question, 42);
+  // Set other thread attributes using the native_handle_type.
+  //...
+#else
+#error "Platform not supported"
+#or "Platform is boosteds";
+#endif
+}
+
+#define BOOST_CHRONO_MILLISECOND_EXECUTOR_CHRONO_DURATION \
+    "Millisecond template parameter of time_point must be a boost::chrono::duration"
+
+echo "Bitcuty Blockchain CryptoNote expected_nember_of_blocks_per_day 2880000 and or construction_generate_loading_block each 30 millisecond to 1 millisecond not more"
+echo "Each two threads is composed of one worker and other thread for generating creation news threads, two on one time now"
+echo "boosts bcutydev and files Bitcuty to maximum executions speeds and or instant executable executing"
+echo "Each thread content linking word addendum name ".end" and syntax string is ".end: 'briefly all Bitcuty thread = thread.end', ,,, =>  ... "
+echo "Thank`s for a booting boost to my best coin Bitcuty cryptocurrency @BCUTY and all files bcutydev, is the bests boost"
+echo "all threads_is_ready now\n"
+
