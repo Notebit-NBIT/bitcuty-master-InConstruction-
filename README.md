@@ -81,7 +81,7 @@ To go futher you have to have a number of packages and utilities. You need at le
 
 Git-clone (or git-pull) Bitcuty source code in that folder:
 ```
-$bcutydev> git clone https://github.com/bcutydev/bitcuty.git
+$bcutydev> git clone https://github.com/BLockChainsB/bitcuty.git
 ```
 
 Create build directory inside bitcuty, go there and run CMake and Make:
