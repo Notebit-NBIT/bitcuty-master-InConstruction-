@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "P2PProtocolBasic.hpp"
@@ -38,7 +38,7 @@ const std::map<std::pair<uint32_t, LevinProtocol::CommandType>,
     std::pair<P2PProtocolBasic::LevinHandlerFunction, size_t>>
     P2PProtocolBasic::after_handshake_handlers = {levin_pair<p2p::TimedSync::Notify>(&P2PProtocolBasic::msg_timed_sync),
         levin_pair<p2p::TimedSync::Response>(&P2PProtocolBasic::msg_timed_sync),
-#if bytecoin_ALLOW_DEBUG_COMMANDS
+#if bitcuty_ALLOW_DEBUG_COMMANDS
         levin_pair<p2p::GetStatInfo::Request>(&P2PProtocolBasic::on_msg_stat_info),
         levin_pair<p2p::GetStatInfo::Response>(&P2PProtocolBasic::on_msg_stat_info),
 #endif

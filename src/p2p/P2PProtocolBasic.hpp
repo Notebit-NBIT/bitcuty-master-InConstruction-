@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcuty developers HB1team.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #pragma once
@@ -50,7 +50,7 @@ protected:
 	virtual void on_msg_handshake(p2p::Handshake::Request &&) {}   // called after some internal processing
 	virtual void on_msg_handshake(p2p::Handshake::Response &&) {}  // called after some internal processing
 	virtual void on_msg_timed_sync(p2p::TimedSync::Notify &&) {}   // called after some internal processing
-#if bytecoin_ALLOW_DEBUG_COMMANDS
+#if bitcuty_ALLOW_DEBUG_COMMANDS
 	virtual void on_msg_stat_info(p2p::GetStatInfo::Request &&) {}
 	virtual void on_msg_stat_info(p2p::GetStatInfo::Response &&) {}
 #endif

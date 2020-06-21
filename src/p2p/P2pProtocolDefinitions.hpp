@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcuty developers HB1team.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #pragma once
@@ -161,9 +161,9 @@ struct Checkpoint {
 	};
 };
 
-#if bytecoin_ALLOW_DEBUG_COMMANDS
+#if bitcuty_ALLOW_DEBUG_COMMANDS
 // These commands are considered as insecure, and made in debug purposes for a limited lifetime.
-// Anyone who feel unsafe with this commands can disable the bytecoin_ALLOW_DEBUG_COMMANDS macro in CryptoNote.hpp
+// Anyone who feel unsafe with this commands can disable the bitcuty_ALLOW_DEBUG_COMMANDS macro in CryptoNote.hpp
 // We significantly changed debug commands
 
 struct ProofOfTrust {
@@ -206,7 +206,7 @@ void ser_members(cn::p2p::SyncPool::Response &v, seria::ISeria &s);
 inline void ser_members(cn::p2p::Checkpoint::Notify &v, seria::ISeria &s) {
 	ser_members(static_cast<cn::SignedCheckpoint &>(v), s);
 }
-#if bytecoin_ALLOW_DEBUG_COMMANDS
+#if bitcuty_ALLOW_DEBUG_COMMANDS
 void ser_members(cn::p2p::ProofOfTrust &v, seria::ISeria &s);
 void ser_members(cn::p2p::GetStatInfo::Request &v, seria::ISeria &s);
 inline void ser_members(cn::p2p::GetStatInfo::Response &v, seria::ISeria &s) {

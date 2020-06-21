@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "P2pProtocolDefinitions.hpp"
@@ -10,7 +10,7 @@
 
 using namespace cn;
 
-#if bytecoin_ALLOW_DEBUG_COMMANDS
+#if bitcuty_ALLOW_DEBUG_COMMANDS
 Hash p2p::ProofOfTrust::get_hash() const {
 	common::VectorStream vs;
 	vs.write_varint(peer_id);
@@ -121,7 +121,7 @@ void ser_members(p2p::TimedSync::Notify &v, seria::ISeria &s) { seria_kv("payloa
 
 void ser_members(p2p::TimedSync::Response &v, seria::ISeria &s) { seria_kv("payload_data", v.payload_data, s); }
 
-#if bytecoin_ALLOW_DEBUG_COMMANDS
+#if bitcuty_ALLOW_DEBUG_COMMANDS
 void ser_members(p2p::ProofOfTrust &v, seria::ISeria &s) {
 	seria_kv("peer_id", v.peer_id, s);
 	seria_kv("time", v.time, s);
