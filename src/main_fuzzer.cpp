@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include <cstddef>
@@ -149,7 +149,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
 int main() {
 	common::BinaryArray ba;
-	invariant(platform::load_file("../../bytecoin2/build/crash-2a4b9774188d29665fe90968723689749ef44045", ba), "");
+	invariant(platform::load_file("../../bitcuty2/build/crash-2a4b9774188d29665fe90968723689749ef44045", ba), "");
 	LLVMFuzzerTestOneInput(ba.data(), ba.size());
 }
 

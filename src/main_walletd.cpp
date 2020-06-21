@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include <boost/algorithm/string.hpp>
@@ -23,7 +23,7 @@
 
 using namespace cn;
 
-static const char USAGE[] = R"(walletd )" bytecoin_VERSION_STRING R"(.
+static const char USAGE[] = R"(walletd )" bitcuty_VERSION_STRING R"(.
 
 Usage:
   walletd [options] --wallet-file=<file>
@@ -53,27 +53,27 @@ Running with selected wallet:
   --secrets-via-api                     Allow getting secrets using 'get_wallet_info' json RPC method.
   --launch-after-command                Launch daemon in case of using --create-wallet, --set-password, and --import-view-key flags.
   --walletd-bind-address=<ip:port>      IP and port for walletd RPC API [default: 127.0.0.1:8070].
-  --data-folder=<folder-path>           Folder for wallet cache, blockchain, logs and peer DB [default: %appdata%/bytecoin].
-  --bytecoind-remote-address=<address>  Connect to remote bytecoind suppressing running built-in daemon.
+  --data-folder=<folder-path>           Folder for wallet cache, blockchain, logs and peer DB [default: %appdata%/bitcuty].
+  --bitcutyd-remote-address=<address>  Connect to remote bitcutyd suppressing running built-in daemon.
                                         Use <ip:port> or http://<ip:port> format to connect to a daemon via HTTP.
                                         Use https://<host:port> format to connect to a daemon via HTTPS.
-  --bytecoind-authorization=<user:pass> HTTP basic authentication credentials for RPC API [default: ""].
+  --bitcutyd-authorization=<user:pass> HTTP basic authentication credentials for RPC API [default: ""].
   --net=<main|stage|test>               Configure for mainnet, stagenet, or testnet [default: main].
 
 Options for BIP39 mnemonic creation:
   --create-mnemonic                     Create a new random BIP39 mnemonic, then exit.
   --mnemonic-strength=<bits>            Used with --create-mnemonic, [default: 256].
 
-Options for built-in bytecoind (allowed when no --bytecoind-remote-address specified):
-DEPRECATED AND NOT RECOMMENDED as entailing security risk. Please always run bytecoind as a separate process.
+Options for built-in bitcutyd (allowed when no --bitcutyd-remote-address specified):
+DEPRECATED AND NOT RECOMMENDED as entailing security risk. Please always run bitcutyd as a separate process.
   --p2p-bind-address=<ip:port>          IP and port for P2P network protocol [default: 0.0.0.0:8080].
   --p2p-external-port=<port>            External port for P2P network protocol, if port forwarding used with NAT [default: 8080].
-  --bytecoind-bind-address=<ip:port>    IP and port for bytecoind RPC [default: 127.0.0.1:8081].
+  --bitcutyd-bind-address=<ip:port>    IP and port for bitcutyd RPC [default: 127.0.0.1:8081].
   --seed-node-address=<ip:port>         Specify node (one or more) to start connecting to.
   --priority-node-address=<ip:port>     Specify node (one or more) to connect to and attempt to keep the connection open.
   --exclusive-node-address=<ip:port>    Specify node (one or more) to exclusive connect to, ignoring all other nodes.)";
 
-static const bool separate_thread_for_bytecoind = true;
+static const bool separate_thread_for_bitcutyd = true;
 
 // All launch scenarios
 
@@ -130,8 +130,8 @@ static const bool separate_thread_for_bytecoind = true;
 //  --secrets-via-api                     Specify to allow...
 //  --walletd-bind-address=<ip:port>      IP and port for walletd RPC API [default: 127.0.0.1:8070].
 //  --data-folder=<folder-path>           Folder for wallet cache, blockchain, logs and peer DB
-//  --bytecoind-remote-address=<ip:port>  Connect to remote bytecoind...
-//  --bytecoind-authorization=<user:pass> HTTP basic authentication credentials for RPC API.
+//  --bitcutyd-remote-address=<ip:port>  Connect to remote bitcutyd...
+//  --bitcutyd-authorization=<user:pass> HTTP basic authentication credentials for RPC API.
 
 void wrong_args(const std::string &msg) { throw Wallet::Exception(api::WALLETD_WRONG_ARGS, msg); }
 
@@ -453,7 +453,7 @@ int main(int argc, const char *argv[]) try {
 			return 0;
 	}
 	// Launching here
-	if (!config.bytecoind_remote_port) {
+	if (!config.bitcutyd_remote_port) {
 		warning("Warning: inproc " CRYPTONOTE_NAME "d is deprecated and will be removed soon.");
 		warning("  Please run " CRYPTONOTE_NAME "d separately, then specify --remote-" CRYPTONOTE_NAME
 		        "d-address=<ip>:<port> argument to walletd");
@@ -472,11 +472,11 @@ int main(int argc, const char *argv[]) try {
 	}
 	std::unique_ptr<platform::ExclusiveLock> blockchain_lock;
 	try {
-		if (!config.bytecoind_remote_port)
+		if (!config.bitcutyd_remote_port)
 			blockchain_lock = std::make_unique<platform::ExclusiveLock>(coin_folder, CRYPTONOTE_NAME "d.lock");
 	} catch (const platform::ExclusiveLock::FailedToLock &ex) {
-		std::cout << "Bytecoind already running - " << common::what(ex) << std::endl;
-		return api::BYTECOIND_ALREADY_RUNNING;
+		std::cout << "Bitcutyd already running - " << common::what(ex) << std::endl;
+		return api::BITCUTYD_ALREADY_RUNNING;
 	}
 	std::unique_ptr<platform::ExclusiveLock> walletcache_lock;
 	try {
@@ -502,13 +502,13 @@ int main(int argc, const char *argv[]) try {
 
 	auto wallet_node = std::make_unique<WalletNode>(logManagerWalletNode, wallet_state);
 
-	// Carefull, throwing after we create bytecoind thread will terminate immediately
+	// Carefull, throwing after we create bitcutyd thread will terminate immediately
 	std::promise<void> prm;
-	std::thread bytecoind_thread;
-	if (!config.bytecoind_remote_port) {
+	std::thread bitcutyd_thread;
+	if (!config.bitcutyd_remote_port) {
 		try {
-			if (separate_thread_for_bytecoind) {
-				bytecoind_thread      = std::thread([&prm, &logManagerNode, &config, &currency] {
+			if (separate_thread_for_bitcutyd) {
+				bitcutyd_thread      = std::thread([&prm, &logManagerNode, &config, &currency] {
                     boost::asio::io_service io;
                     platform::EventLoop separate_run_loop(io);
 
@@ -538,14 +538,14 @@ int main(int argc, const char *argv[]) try {
 			}
 		} catch (const platform::TCPAcceptor::AddressInUse &ex) {
 			std::cout << common::what(ex) << std::endl;
-			if (bytecoind_thread.joinable())
-				bytecoind_thread.join();  // otherwise terminate will be called in ~thread
-			return api::BYTECOIND_BIND_PORT_IN_USE;
+			if (bitcutyd_thread.joinable())
+				bitcutyd_thread.join();  // otherwise terminate will be called in ~thread
+			return api::BITCUTYD_BIND_PORT_IN_USE;
 		} catch (const BlockChainState::Exception &ex) {
 			std::cout << common::what(ex) << std::endl;
-			if (bytecoind_thread.joinable())
-				bytecoind_thread.join();  // otherwise terminate will be called in ~thread
-			return api::BYTECOIND_DATABASE_FORMAT_TOO_NEW;
+			if (bitcutyd_thread.joinable())
+				bitcutyd_thread.join();  // otherwise terminate will be called in ~thread
+			return api::BITCUTYD_DATABASE_FORMAT_TOO_NEW;
 		} catch (const std::exception &ex) {  // On Windows what() is not printed if thrown from main
 			std::cout << "Uncaught Exception in main() - " << common::what(ex) << std::endl;
 			// TODO - check that ..joinable()..join().. code from above does not apply also
@@ -565,7 +565,7 @@ int main(int argc, const char *argv[]) try {
 	return 0;
 } catch (const cn::Config::DataFolderError &ex) {
 	std::cout << common::what(ex) << std::endl;
-	return api::BYTECOIND_DATAFOLDER_ERROR;
+	return api::BITCUTYD_DATAFOLDER_ERROR;
 } catch (const platform::TCPAcceptor::AddressInUse &ex) {
 	std::cout << common::what(ex) << std::endl;
 	return api::WALLETD_BIND_PORT_IN_USE;
@@ -606,7 +606,7 @@ int main_app(common::console::UnicodeConsoleSetup &console_setup, common::Comman
 	return 0;
 } catch (const cn::Config::DataFolderError &ex) {
 	std::cout << common::what(ex) << std::endl;
-	return api::BYTECOIND_DATAFOLDER_ERROR;
+	return api::BITCUTYD_DATAFOLDER_ERROR;
 } catch (const platform::TCPAcceptor::AddressInUse &ex) {
 	std::cout << common::what(ex) << std::endl;
 	return api::WALLETD_BIND_PORT_IN_USE;

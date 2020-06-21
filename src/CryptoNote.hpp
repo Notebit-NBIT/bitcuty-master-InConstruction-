@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcoin developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #pragma once
@@ -12,9 +12,9 @@
 #include "crypto/types.hpp"
 
 // We define here, as CryptoNoteConfig.h is never included anywhere anymore
-#define bytecoin_ALLOW_DEBUG_COMMANDS 1
+#define bitcuty_ALLOW_DEBUG_COMMANDS 1
 
-#define bytecoin_ALLOW_CM 0
+#define bitcuty_ALLOW_CM 0
 
 namespace cn {
 
@@ -117,7 +117,7 @@ struct BlockHeader {
 	BinaryArray nonce;  // 4 bytes, except in blocks with is_cm_mined() (variable-length there)
 
 	RootBlock root_block;  // For block with is_merge_mined() true
-#if bytecoin_ALLOW_CM
+#if bitcuty_ALLOW_CM
 	std::vector<crypto::CMBranchElement> cm_merkle_branch;  // For blocks with is_cm_mined() true
 	bool is_cm_mined() const { return major_version == 6; }
 #endif

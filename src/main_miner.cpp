@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include <thread>
@@ -31,7 +31,7 @@ Options:
   -h --help                      Show this screen.
   -v --version                   Show version.
   --wallet-address=<address>     Address to receive mined coins (required).
-  --bytecoind-address=<ip:port>  Single option for both daemon address and port.
+  --bitcutyd-address=<ip:port>  Single option for both daemon address and port.
   --limit=<N>                    Mine and submit specified number of blocks, then exit, 0 means no limit [Default: 0].
   --threads=<N>                  Not implemented - just start several copies of minerd.
   --boast=<text>                 Text to insert into coinbase transaction's extra nonce.
@@ -43,13 +43,13 @@ using namespace cn;
 
 struct MiningConfig {
 	explicit MiningConfig(common::CommandLine &cmd)
-	    : bytecoind_ip("127.0.0.1"), bytecoind_port(parameters::RPC_DEFAULT_PORT) {
+	    : bitcutyd_ip("127.0.0.1"), bitcutyd_port(parameters::RPC_DEFAULT_PORT) {
 		if (const char *pa = cmd.get("--address", "Use --wallet-address instead"))
 			mining_address = pa;
 		if (const char *pa = cmd.get("--wallet-address"))
 			mining_address = pa;
 		if (const char *pa = cmd.get("--" CRYPTONOTE_NAME "d-address")) {
-			ewrap(common::parse_ip_address_and_port(pa, &bytecoind_ip, &bytecoind_port),
+			ewrap(common::parse_ip_address_and_port(pa, &bitcutyd_ip, &bitcutyd_port),
 			    std::runtime_error("Command line option --" CRYPTONOTE_NAME "d-address has wrong format"));
 		} else
 			throw std::runtime_error("--" CRYPTONOTE_NAME "d-address=ip:port argument is mandatory");
@@ -68,9 +68,9 @@ struct MiningConfig {
 	}
 
 	std::string mining_address;
-	std::string bytecoind_ip;
+	std::string bitcutyd_ip;
 	std::string boast;
-	uint16_t bytecoind_port = 0;
+	uint16_t bitcutyd_port = 0;
 	size_t blocks_limit     = 0;
 	// Mine specified number of blocks, then exit, 0 == indefinetely
 	Hash miner_secret;
@@ -109,8 +109,8 @@ public:
 
 	explicit HTTPMiner(const MiningConfig &mining_config)
 	    : mining_config(mining_config)
-	    , getwork_agent(mining_config.bytecoind_ip, mining_config.bytecoind_port)
-	    , submit_agent(mining_config.bytecoind_ip, mining_config.bytecoind_port)
+	    , getwork_agent(mining_config.bitcutyd_ip, mining_config.bitcutyd_port)
+	    , submit_agent(mining_config.bitcutyd_ip, mining_config.bitcutyd_port)
 	    , getwork_retry(std::bind(&HTTPMiner::send_getwork, this))
 	    , submit_retry(std::bind(&HTTPMiner::send_submit, this)) {
 		send_getwork();
@@ -119,7 +119,7 @@ public:
 		if (difficulty == 0)
 			return false;
 		nonce++;
-		BinaryArray pow_hashing_data;
+		BinaryArray pow_hashing_overflow_superflu_data_bit;
 		BinaryArray cm_nonce;
 		std::vector<crypto::CMBranchElement> cm_merkle_branch;
 		Hash cm_merkle_root;

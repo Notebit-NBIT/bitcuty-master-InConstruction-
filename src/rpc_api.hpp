@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcuty developers HB1team.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #pragma once
@@ -21,9 +21,9 @@
 // bool - Bool
 
 // Amount, SignedAmount, Height, Timestamp, BlockOrTimestamp, Difficulty, size_t, (u)int - Number.
-// bytecoin does not use fractional numbers, but uses numbers as large as 2^64-1 for amounts,
+// bitcuty does not use fractional numbers, but uses numbers as large as 2^64-1 for amounts,
 // which is larger than 2^53 exactly representable in double or JavaScript Number
-// amounts large than ~91 million BCN cannot be represented exactly in JavaScript and other platforms using IEEE
+// amounts large than ~91 million BCUTY cannot be represented exactly in JavaScript and other platforms using IEEE
 // 64-bit floating numbers, so you should use appropriate json/bigint library to handle large amounts
 
 // std::string, Hash, PublicKey, SecretKey, KeyImage, BinaryArray - String (hex)
@@ -31,7 +31,7 @@
 // std::vector - Array
 // std::map, struct - Object
 
-// bytecoin does not use Null, you should specify empty Array as [], empty string as "", empty Object as {}
+// bitcuty does not use Null, you should specify empty Array as [], empty string as "", empty Object as {}
 
 namespace cn { namespace api {
 
@@ -141,7 +141,7 @@ struct RawBlock {
 	BlockTemplate raw_header;
 	std::vector<TransactionPrefix> raw_transactions;
 	std::vector<api::Transaction>
-	    transactions;  // for each transaction + coinbase, contain only info known to bytecoind
+	    transactions;  // for each transaction + coinbase, contain only info known to bitcutyd
 	std::vector<std::vector<size_t>>
 	    output_stack_indexes;  // for each transaction + coinbase, not empty only if block in main chain
 };
@@ -167,13 +167,13 @@ struct Balance {
 };
 
 enum return_code {
-	BYTECOIND_DATABASE_ERROR          = 101,  // We hope we are out of disk space, otherwise blockchain DB is corrupted.
-	BYTECOIND_ALREADY_RUNNING         = 102,
+	BITCUTYD_DATABASE_ERROR          = 101,  // We hope we are out of disk space, otherwise blockchain DB is corrupted.
+	BITCUTYD_ALREADY_RUNNING         = 102,
 	WALLETD_BIND_PORT_IN_USE          = 103,
-	BYTECOIND_BIND_PORT_IN_USE        = 104,
-	BYTECOIND_WRONG_ARGS              = 105,
-	BYTECOIND_DATABASE_FORMAT_TOO_NEW = 106,
-	BYTECOIND_DATAFOLDER_ERROR        = 107,  // Also returned from walletd
+	BITCUTYD_BIND_PORT_IN_USE        = 104,
+	BITCUTYD_WRONG_ARGS              = 105,
+	BITCUTYD_DATABASE_FORMAT_TOO_NEW = 106,
+	BITCUTYD_DATAFOLDER_ERROR        = 107,  // Also returned from walletd
 	WALLET_FILE_READ_ERROR            = 205,
 	WALLET_FILE_UNKNOWN_VERSION       = 206,
 	WALLET_FILE_DECRYPT_ERROR         = 207,
@@ -246,7 +246,7 @@ struct GetStatus {
 		// You get longpoll (no immediate reply) until any parameter changes.
 		// You can just send previous response as a next request if you are interested in all changes visible to API.
 		std::string lower_level_error;
-		// Problems on lower levels (like bytecoind errors in walletd status). Empty - no errors
+		// Problems on lower levels (like bitcutyd errors in walletd status). Empty - no errors
 		Height top_block_height                              = 0;
 		Height top_known_block_height                        = 0;  // Max of heights reported by p2p peers.
 		Difficulty top_block_difficulty                      = 0;
@@ -479,7 +479,7 @@ struct CreateTransaction {
 		ADDRESS_FAILED_TO_PARSE = -4,     // returns ErrorAddress
 		INVALID_HEIGHT_OR_DEPTH = -2,     // height_or_depth too low or too high
 		ADDRESS_NOT_IN_WALLET   = -1002,  // returns ErrorAddress
-		BYTECOIND_REQUEST_ERROR = -1003   // bytecoind returned error
+		BITCUTYD_REQUEST_ERROR = -1003   // bitcutyd returned error
 	};
 	struct ErrorTransactionTooBig : public json_rpc::Error {
 		Amount max_amount               = 0;
@@ -510,7 +510,7 @@ struct SendTransaction {
 		// height is reported in conflict_height. If output index > max current index, conflict_height will be set to
 		// currency.max_block_number
 		OUTPUT_ALREADY_SPENT    = -103,  // conflight height reported in error
-		BYTECOIND_REQUEST_ERROR = -1003  // bytecoind returned error
+		BITCUTYD_REQUEST_ERROR = -1003  // bitcutyd returned error
 	};
 	struct Error : public json_rpc::Error {
 		Height conflict_height = 0;
@@ -540,7 +540,7 @@ struct CreateSendproof {
 	enum {
 		ADDRESS_FAILED_TO_PARSE    = -4,    // returns ErrorAddress
 		ADDRESS_NOT_IN_TRANSACTION = -204,  // returns ErrorAddress
-		BYTECOIND_REQUEST_ERROR    = -1003  // bytecoind returned error
+		BITCUTYD_REQUEST_ERROR    = -1003  // bitcutyd returned error
 	};
 };
 
@@ -603,9 +603,9 @@ struct ExtCloseWallet {  // Experimental, undocumented
 }  // namespace walletd
 }}  // namespace cn::api
 
-// These messages encoded in JSON can be sent via http url /json_rpc3 to bytecoind rpc address:port
+// These messages encoded in JSON can be sent via http url /json_rpc3 to bitcutyd rpc address:port
 // or to binMethod() url encoded in unspecified binary format
-namespace cn { namespace api { namespace cnd {  // cryptonoted is historically compiled to bytecoind, etc.
+namespace cn { namespace api { namespace cnd {  // cryptonoted is historically compiled to bitcutyd, etc.
 
 inline std::string url() { return "/json_rpc"; }
 inline std::string binary_url() { return "/binary_rpc"; }
@@ -653,7 +653,7 @@ struct GetBlockHeader {
 	};
 };
 
-struct SyncBlocks {  // Used by walletd, block explorer, etc to sync to bytecoind
+struct SyncBlocks {  // Used by walletd, block explorer, etc to sync to bitcutyd
 	static std::string method() { return "sync_blocks"; }
 	static std::string bin_method() { return "sync_blocks_v3.4.3"; }
 	// we increment bin method version when binary format changes
@@ -699,7 +699,7 @@ struct GetRawTransaction {
 		Hash hash;
 	};
 	struct Response {
-		api::Transaction transaction;  // contain only info known to bytecoind
+		api::Transaction transaction;  // contain only info known to bitcutyd
 		TransactionPrefix raw_transaction;
 		std::vector<std::vector<PublicKey>> mixed_public_keys;  // deprecated
 		std::vector<std::vector<api::Output>> mixed_outputs;    // TODO - document
@@ -723,7 +723,7 @@ struct SyncMemPool {  // Used by walletd sync process
 	struct Response {
 		std::vector<Hash> removed_hashes;                       // Hashes no more in pool
 		std::vector<TransactionPrefix> added_raw_transactions;  // New raw transactions in pool
-		std::vector<api::Transaction> added_transactions;       // contain only info known to bytecoind
+		std::vector<api::Transaction> added_transactions;       // contain only info known to bitcutyd
 		GetStatus::Response status;  // We save roundtrip during sync by also sending status here
 	};
 };
@@ -944,7 +944,7 @@ namespace seria {
 class ISeria;
 
 void ser_members(cn::api::EmptyStruct &v, ISeria &s);
-void ser_members(cn::api::Output &v, ISeria &s, bool only_bytecoind_fields = false);
+void ser_members(cn::api::Output &v, ISeria &s, bool only_bitcutyd_fields = false);
 void ser_members(cn::api::BlockHeader &v, ISeria &s);
 void ser_members(cn::api::cnd::BlockHeaderLegacy &v, ISeria &s);
 void ser_members(cn::api::Transfer &v, ISeria &s, bool with_message = true);
