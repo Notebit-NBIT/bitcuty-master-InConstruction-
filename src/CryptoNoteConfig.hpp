@@ -51,7 +51,7 @@ const Timestamp BITCUTY_TIMESTAMP                                      = 1550000
                                       "the linky-link linkchain BLOB attribut for the best block"
 // a best properties data and value blockchain .end                                                                                 ¡¡¡
 // Locking by timestamp and by block                                                                                                ¡¡¡
-const Height BITCUTY_MIN_BLOCK_NUMBER                                  = 10000000000; //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
+const Height BITCUTY_MIN_BLOCK_NUMBER                                  = 10000000000; //eternal bitcuty per infinity linkchain BLOB ¡¡¡
 const Height BITCUTY_MAX_BLOCK_NUMBER                                  = 0;        //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
 const Height BITCUTY_NONCE_BLOCK_NUMBER                                = 1;        // first block on the linky-link linkchain BLOB  ¡¡¡
 const Height BITCUTY_BLOB_HEIGHT_LINKCHAIN                             = 1;        // the master and main blockchain other is slave ¡¡¡ 
@@ -158,7 +158,7 @@ const uint8_t  BLOCK_MINOR_VERSION_1                                   = 1;     
                                    
 
 // Size limits                                                                                                                      ¡¡¡
-const Height BITCUTY_MAX_TX_SIZE                                       = 576000000000;     //                                       ¡¡¡ 
+const Height BITCUTY_MAX_TX_SIZE                                       = 57600000000;     //                                       ¡¡¡ 
 const Height CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_BLOCKS                 = 1;                //                                       ¡¡¡
 const Height CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_SECONDS = DIFFICULTY_TARGET * CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_BLOCKS; //         ¡¡¡
  
@@ -181,11 +181,41 @@ const Height LOCKED_TX_ALLOWED_DELTA_BLOCKS                            = 1;     
 constexpr Timestamp LOCKED_TX_ALLOWED_DELTA_SECONDS(Timestamp difficulty_target) {
 	return difficulty_target * LOCKED_TX_ALLOWED_DELTA_BLOCKS};                        //                                       ¡¡¡
 
+// calcul mathematic for convert full overflow b-currency the monetary value in Bitcuty coin  (BCUTY)                               ¡¡¡
+// conversion of bit or binary bit value inside the bitcuty blockchain cryptonote, for one bit is base10-9decimal digit value       ¡¡¡
+// all`in overflow is hashed per hashing-b clean and cut bit to original quota data inside the unique bit size per and for each single bit automatic hashing-b clean and cut and swap to monetary value bitcuty(bcuty) per cryptonote mine extration b-currency value      ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Tera-bitcuty(TBit)           = 1000000000000.000000000 BCUTY>=<TERA-BCUTY> (Tbit)  ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Giga-bitcuty(Gbit)           =    1000000000.000000000 BCUTY>=<GIGA-BCUTY> (Gbit)  ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Mega-bitcuty(Mbit)           =       1000000.000000000 BCUTY>=<MEGA-BCUTY> (Mbit)  ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Kilo-bitcuty(kbit)           =          1000.000000000 BCUTY>=<KILO-BCUTY> (kbit)  ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Hecto-bitcuty(hbit)          =           100.000000000 BCUTY>=<HECTO-BCUTY> (hbit) ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Deca-bitcuty(dabit)          =            10.000000000 BCUTY>=<DECA-BCUTY> (dabit) ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Cuty-bitcuty(bcuty)          =             1.000000000 BCUTY>=<CUTY-BCUTY> (bcuty) ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Deci-bitcuty(dbit)           =             0.100000000 BCUTY>=<DECI-BCUTY> (dbit)  ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Centi-bitcuty(cbit)          =             0.010000000 BCUTY>=<CENTI-BCUTY> (cbit) ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Milli-bitcuty(mbit)          =             0.001000000 BCUTY>=<MILLI-BCUTY> (mbit) ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Micro-bitcuty(μbit)          =             0.000001000 BCUTY>=<MICRO-BCUTY> (μbit) ; //   ¡¡¡
+   const Amount BITCUTY_ATOMIC_COIN_NAMED<Nano-bitcuty(nbit)           =             0.000000001 BCUTY>=<NANO-BCUTY> (nbit)  ; //   ¡¡¡
+
+// value per bit on block for the linky-link blockchain special edition creation per Picsou ake McDuck the HB1team .end             ¡¡¡
+// this monetary structure is the cost price of each bit on the block inside the linky-link Blockchain CryptoNote special edition by Hashing-b Blockchain, all list price in $USD for regular time cost rate                                                             ¡¡¡ 
+   const Amount <BITCUTY*OVERFLOW_SUPERFLUOUS_DATA_BIT>                = 'FOREX_PRICE("$USD")'; // Mine overflow original data-bit  ¡¡¡
+
+"Abracadabra is magical swap bit for every elementary system is the scientific protocol for a best of the best productions on localhost"
+// number byte per unit of data with size with original quota space and any overflow is extracted by hashing-b, clean and cut overflow all`in data overflow and metadata automatically saved any space quota overflow of original data is grouped in the best addendum block and the metadata is encrypted by predefined algorithms in the blockchain .end                                                       ¡¡¡
+// data self-adjustment for perfect precision size with the accuracy of regular quota vector space for each unit of data and any overflow is grouped in data auditing inside the block on the blockchain is the perfect efficient one best b-block and b-currency with CryptoNote Blockchain by the developers of HB1team Blockchains and cryptocurrencies for the best functioning for an ecosystem and green-pc machines is evo+control data for a best lifetime events, "cmake generator code complete coding object, c c++ cmake it`s the best"¡¡¡
+   const BytesN BITCUTY_MINE_OVERFLOW_DATA_SIZE_UNIT_NUMBER            = 2; // is value in byte for each unit, mine all`in overflow ¡¡¡
+   const BytesN BITCUTY_MINE_OVERFLOW_DATA_SIZE_UNIT_CHARACTER         = 2; // is value in byte for each unit, mine all`in overflow ¡¡¡
+   const BytesN BITCUTY_MINE_OVERFLOW_DATA_SIZE_UNIT_WORD              = 2; // is value in byte for each unit, mine all`in overflow ¡¡¡
+   const BytesN BITCUTY_MINE_OVERFLOW_DATA_SIZE_UNIT_DWORD             = 4; // is value in byte for each unit, mine all`in overflow ¡¡¡
+   const BytesN BITCUTY_MINE_OVERFLOW_DATA_SIZE_UNIT_QWORD             = 8; // is value in byte for each unit, mine all`in overflow ¡¡¡
+   const BytesN BITCUTY_MINE_OVERFLOW_DATA_SIZE_UNIT_DIGIT             = 2; // is value in byte for each unit, mine all`in overflow ¡¡¡
+
 // general fee per transaction the Bitcuty coin .end                                                                                ¡¡¡
 // the low cost in decimal digit value                                                                                              ¡¡¡
-   const Amount MIN_DUST_THRESHOLD                                     = 10000000;      //                                       ¡¡¡
-   const Amount MAX_DUST_THRESHOLD                                     = 30000000000000;  //                                       ¡¡¡
-   const Amount SELF_DUST_THRESHOLD                                    = 1000;             //                                       ¡¡¡
+   const Amount MIN_DUST_THRESHOLD                                     = 1000000;                    //                         ¡¡¡
+   const Amount MAX_DUST_THRESHOLD                                     = 3000000000000;                //                         ¡¡¡
+   const Amount SELF_DUST_THRESHOLD                                    = 1000;                           //                         ¡¡¡
  
 // rewarding of lifetime blockchain "infinity" .end                                                                                 ¡¡¡
 // Emission b-currencies value formats funds in Bitcuty(BCUTY) coins with 9 decimal digit                                           ¡¡¡
