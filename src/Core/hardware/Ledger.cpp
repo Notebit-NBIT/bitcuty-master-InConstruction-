@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "Ledger.hpp"
@@ -12,7 +12,7 @@
 #include "common/StringTools.hpp"
 #include "common/Varint.hpp"
 #include "http/ResponseParser.hpp"
-#include "ledger/bytecoin_ledger_api.h"
+#include "ledger/bitcuty_ledger_api.h"
 #include "seria/BinaryInputStream.hpp"
 
 using namespace cn::hardware;
@@ -173,7 +173,7 @@ static int unwrapReponseApdu(unsigned int channel, const unsigned char *data, si
 	return static_cast<int>(offsetOut);
 }
 
-size_t Ledger::get_scan_outputs_max_batch() const { return BYTECOIN_MAX_SCAN_OUTPUTS; }
+size_t Ledger::get_scan_outputs_max_batch() const { return BITCUTY_MAX_SCAN_OUTPUTS; }
 
 static int hid_write_wrapper(hid_device *device, const uint8_t *data, size_t length) {
 	std::unique_ptr<uint8_t[]> buffer{new uint8_t[length + 1]};
@@ -241,7 +241,7 @@ int Ledger::sendApdu(const uint8_t *data, size_t len, uint8_t *out, size_t out_l
 BinaryArray Ledger::sendApdu(uint8_t cmd, const BinaryArray &body) {
 	if (body.size() > 0xff)
 		throw std::runtime_error("sendApdu size too big size=" + common::to_string(body.size()));
-	BinaryArray ba{BYTECOIN_CLA, cmd, 0, 0, static_cast<uint8_t>(body.size())};
+	BinaryArray ba{BITCUTY_CLA, cmd, 0, 0, static_cast<uint8_t>(body.size())};
 	common::append(ba, body);
 	if (body.empty()) {  // According to smartcard protocol 0 means 256. We do not want this.
 		ba.back() = 1;
@@ -274,7 +274,7 @@ void Ledger::get_app_info() {
 	m_app_info.minor_version = vs.read_byte();
 	m_app_info.patch_version = vs.read_byte();
 
-	static constexpr char expected_app_name[]       = "Bytecoin";
+	static constexpr char expected_app_name[]       = "Bitcuty";
 	static constexpr uint8_t expected_app_name_size = sizeof(expected_app_name) - 1;
 
 	const uint8_t app_name_size = vs.read_byte();

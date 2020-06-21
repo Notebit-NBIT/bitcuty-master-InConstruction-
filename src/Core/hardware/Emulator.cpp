@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "Emulator.hpp"
@@ -124,12 +124,12 @@ Emulator::Emulator(const std::string &mnemonic) {
 	std::cout << "poi4=" << to_bytes(poi1 + poi2) << std::endl;
 	std::cout << "poi5=" << to_bytes(poi1 - poi2) << std::endl;
 
-	const char bcn[] = "bcn";
+	const char bcuty[] = "bcuty";
 
-	std::cout << cn_fast_hash(bcn, 3) << std::endl;
-	std::cout << hash_to_scalar(bcn, 3) << std::endl;
-	std::cout << hash_to_scalar64(bcn, 3) << std::endl;
-	std::cout << hash_to_good_point(bcn, 3) << std::endl;
+	std::cout << cn_fast_hash(bcuty, 3) << std::endl;
+	std::cout << hash_to_scalar(bcuty, 3) << std::endl;
+	std::cout << hash_to_scalar64(bcuty, 3) << std::endl;
+	std::cout << hash_to_good_point(bcuty, 3) << std::endl;
 }
 
 Emulator::~Emulator() {}
@@ -363,8 +363,8 @@ void Emulator::sign_add_extra(const BinaryArray &chunk) {
 	sign.tx_inputs_stream.append(tx_prefix_hash.data, 32);
 	sign.tx_prefix_stream = KeccakStream{};
 
-	sign.random_seed    = debug_seed ? cn_fast_hash("bcn", 3) : crypto::rand<Hash>();
-	sign.encryption_key = debug_seed ? cn_fast_hash("bcn", 3) : crypto::rand<Hash>();
+	sign.random_seed    = debug_seed ? cn_fast_hash("bcuty", 3) : crypto::rand<Hash>();
+	sign.encryption_key = debug_seed ? cn_fast_hash("bcuty", 3) : crypto::rand<Hash>();
 }
 
 void Emulator::sign_step_a(const common::BinaryArray &output_secret_hash_arg, size_t address_index,
@@ -492,8 +492,8 @@ void Emulator::proof_start(const common::BinaryArray &data) {
 	Hash tx_prefix_hash   = sign.tx_prefix_stream.cn_fast_hash();
 	sign.tx_prefix_stream = KeccakStream{};
 
-	sign.random_seed    = debug_seed ? cn_fast_hash("bcn", 3) : crypto::rand<Hash>();
-	sign.encryption_key = debug_seed ? cn_fast_hash("bcn", 3) : crypto::rand<Hash>();
+	sign.random_seed    = debug_seed ? cn_fast_hash("bcuty", 3) : crypto::rand<Hash>();
+	sign.encryption_key = debug_seed ? cn_fast_hash("bcuty", 3) : crypto::rand<Hash>();
 
 	sign.tx_inputs_stream.append(tx_prefix_hash.data, 32);
 	sign.state = SigningState::EXPECT_STEP_A;
