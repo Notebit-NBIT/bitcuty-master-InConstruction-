@@ -213,8 +213,8 @@ constexpr Timestamp LOCKED_TX_ALLOWED_DELTA_SECONDS(Timestamp difficulty_target)
 
 // general fee per transaction the Bitcuty coin .end                                                                                ¡¡¡
 // the low cost in decimal digit value                                                                                              ¡¡¡
-   const Amount MIN_DUST_THRESHOLD                                     = 1000000;                    //                         ¡¡¡
-   const Amount MAX_DUST_THRESHOLD                                     = 3000000000000;                //                         ¡¡¡
+   const Amount MIN_DUST_THRESHOLD                                     = 1000000;                        //                         ¡¡¡
+   const Amount MAX_DUST_THRESHOLD                                     = 3000000000000;                  //                         ¡¡¡
    const Amount SELF_DUST_THRESHOLD                                    = 1000;                           //                         ¡¡¡
  
 // rewarding of lifetime blockchain "infinity" .end                                                                                 ¡¡¡
@@ -222,8 +222,9 @@ constexpr Timestamp LOCKED_TX_ALLOWED_DELTA_SECONDS(Timestamp difficulty_target)
                                 "The calcul is for the unique and the first main blockchain Bitcuty(BCUTY)"
 // Amount Money supply, number in format uint64_t Bitcuty(BCUTY) coins for the lifetime for each linky-link linkchain BLOB          ¡¡¡ 
       // The genesis block with premined coins for the general rewarding creation                                                   ¡¡¡
-      const Amount(UINT64_C) MONEY_SUPPLY                              = UINT64_C(18446744073709551615);  // BCUTY                  ¡¡¡
-	      
+      const Amount(UINT64_C) BITCUTY_MONEY_SUPPLY                      = UINT64_C(18446744073709551615); //BCUTY                    ¡¡¡
+      const Amount(UINT64_C) BITCUTY_GENESIS_BLOCK_REWARD              = INT64_C(184467440737095516);    //BCUTY rewarding creation ¡¡¡ 
+
 // Magics genesis coinbase with a premined bitcuty coin for general rewarding                                                       ¡¡¡
 uint32_t const GENESIS_NONCE                                           = 1;                //                                       ¡¡¡
 const char GENESIS_COINBASE_TX_HEX                                     = "010a01ff0001ffffffffffff0f029b2e4c0281c0b02e7c53291a94d1d0cbff8883f8024f5142ee494ffbbd0880712101cd007c34c6c599e1c2b771825dfcb9641202ceec92d133d45990c32a193c8b9f";               //                                       ¡¡¡
@@ -346,4 +347,3 @@ __attribute__((used))
                                                 ""Hashing-b Blockchain""
                                   ""Hashing-b Financial Society Department Blockchain""
                                "---------------------------------------------------------"
-
