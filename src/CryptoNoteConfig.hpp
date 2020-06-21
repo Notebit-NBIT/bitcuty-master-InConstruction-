@@ -51,7 +51,7 @@ const Timestamp BITCUTY_TIMESTAMP                                      = 1550000
                                       "the linky-link linkchain BLOB attribut for the best block"
 // a best properties data and value blockchain .end                                                                                 ¡¡¡
 // Locking by timestamp and by block                                                                                                ¡¡¡
-const Height BITCUTY_MIN_BLOCK_NUMBER                                  = 10000000; //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
+const Height BITCUTY_MIN_BLOCK_NUMBER                                  = 10000000000; //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
 const Height BITCUTY_MAX_BLOCK_NUMBER                                  = 0;        //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
 const Height BITCUTY_NONCE_BLOCK_NUMBER                                = 1;        // first block on the linky-link linkchain BLOB  ¡¡¡
 const Height BITCUTY_BLOB_HEIGHT_LINKCHAIN                             = 1;        // the master and main blockchain other is slave ¡¡¡ 
