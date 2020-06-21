@@ -96,7 +96,6 @@ $bcutydev/bitcuty/build> sudo apt install depends bcutydev/bitcuty              
 $bcutydev/bitcuty/build> mount                                                     # mount all bitcuty file in directory
 $bcutydev/bitcuty/build> make -j8 -e --include-dir=/src/CryptoNoteConfig.hpp -k -i # build with main properties file
 $bcutydev/bitcuty/build> make -j8 -B --always-make -i -k --assume-new=*            # build with every new creation
-$bcutydev/bitcuty/build> make -j8                                                  # build regular mount file
 ```
 
 Check built binaries by running them from `../bin` folder
