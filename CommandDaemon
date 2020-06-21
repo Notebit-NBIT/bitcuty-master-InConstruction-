@@ -1,1 +1,0 @@
-make -j8 -e --include-dir=/src/CryptoNoteConfig.hpp -L -k -i
