@@ -99,7 +99,7 @@ const Difficulty MINIMUM_DIFFICULTY                                    = 100000;
 const Height EXPECTED_NUMBER_OF_BLOCKS_PER_DAY                         = 24 * 60 * 60 * 1 / DIFFICULTY_TARGET; //                   ¡¡¡
 const Height DIFFICULTY_WINDOW                                         = 2880;   //                                                 ¡¡¡
 const Height DIFFICULTY_CUT                                            = 1441;   //                                                 ¡¡¡
-const HeightDIFFICULTY_LAG                                             = 5;      // DIFFICULTY_LAG/LAG\nLAG                         ¡¡¡ 
+const HeightDIFFICULTY_LAG                                             = 0;      // DIFFICULTY_LAG/LAG\nLAG                         ¡¡¡ 
 const Difficulty MINIMUM_DIFFICULTY_V1                                 = 1;      // Genesis and some first blocks in main net       ¡¡¡ 
 const Difficulty MINIMUM_DIFFICULTY                                    = 100000; //                                                 ¡¡¡
 static_assert(<DIFFICULTY_WINDOW >=<=>=<2880><"DIFFICULTY_WINDOW">);             //                                                 ¡¡¡
