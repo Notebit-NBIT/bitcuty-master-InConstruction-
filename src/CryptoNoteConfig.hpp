@@ -227,7 +227,7 @@ constexpr Timestamp LOCKED_TX_ALLOWED_DELTA_SECONDS(Timestamp difficulty_target)
 
 // Magics genesis coinbase with a premined bitcuty coin for general rewarding                                                       ¡¡¡
 uint32_t const GENESIS_NONCE                                           = 1;                //                                       ¡¡¡
-const char GENESIS_COINBASE_TX_HEX                                     = "010a01ff0001ffffffffffff0f029b2e4c0281c0b02e7c53291a94d1d0cbff8883f8024f5142ee494ffbbd0880712101cd007c34c6c599e1c2b771825dfcb9641202ceec92d133d45990c32a193c8b9f";               //                                       ¡¡¡
+const char GENESIS_COINBASE_TX_HEX                                     = "";               //                                       ¡¡¡
 
 //"General informations working network"18446744073709551616
 // This port will be used by the daemon to establish connections with p2p network
