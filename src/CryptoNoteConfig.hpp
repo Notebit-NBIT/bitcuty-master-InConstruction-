@@ -2,8 +2,8 @@
                                  // Copyright (c) 2012-2020, The HB1team Bitcuty developers .end ¡¡¡
                         // Licensed under the GNU Lesser General Public License. See LICENSE for details .end ¡¡¡
 //Bitcuty Blockchain CryptoNote Special edition Linky-link linkchain BLOB per Hashing-b Financial Society Department Blockchain .end ¡¡¡
-      // Linky-link is x10 million blocks per blockchain("Linkchain BLOB") *multiplies* per every number Bitcuty Blockchain .end ¡¡¡
-     // Bitcuty is eternal Blockchain, with Infinity Linkchain BLOB and stables x10 million a Best Block Per Unique ChainID .end ¡¡¡
+      // Linky-link is x10 billion blocks per blockchain("Linkchain BLOB") *multiplies* per every number Bitcuty Blockchain .end ¡¡¡
+     // Bitcuty is eternal Blockchain, with Infinity Linkchain BLOB and stables x10 billion a Best Block Per Unique ChainID .end ¡¡¡
            // The popular athcoin Bitcuty cryptocurrency is create per Picsou aka McDuck of HB1team the Hashing-b Blockchain ¡¡¡
  // more than one blockchain in action using chain links "named: linky-link linkchain BLOB" to make the eternal chain work .end ¡¡¡
                                           // All rights reserved to CryptoNote Blockchain ¡¡¡
