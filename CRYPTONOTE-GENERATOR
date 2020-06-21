@@ -1,0 +1,62 @@
+CRYPTONOTE-GENERATOR
+{
+
+/* Extensions to load */
+"extensions": [ "core/bitcuty.json", "print-genesis-tx.json" ],
+
+/* Source coin. Bitcuty popular coin. See the available base coins here: https://github.com/BLockChainsB/bitcuty.git */
+"base_coin": "bitcuty-evo+control",
+
+"core":{
+	/* Check uniqueness with Google and Map of Coins. */
+	"CRYPTONOTE_NAME":"bitcuty",
+
+	/* Address prefix. Generate here: https://cryptonotestarter.org/inner.html */
+	"CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX":0x1f04eb03ccf,
+
+	"P2P_DEFAULT_PORT":8080,
+	"RPC_DEFAULT_PORT":8081,
+
+	/* Seed nodes. Use at least 2 */
+	"SEED_NODES":["127.0.0.1:8080", "0.0.0.0:3984"],
+
+	/* Array with checkpoints. */
+	"CHECKPOINTS":["10000, "84b6345731e2702cdaadc6ce5e5238c4ca5ecf48e3447136b2ed829b8a95f3ad"],
+
+	/* Created with connectivity_tool. Leave empty if not needed */
+	"P2P_STAT_TRUSTED_PUB_KEY":"8f80f9a5a434a9f1510d13336228debfee9c918ce505efe225d8c94d045fa115",
+
+	/* Genesis! Leave empty for new coins */
+	"GENESIS_COINBASE_TX_HEX":"",
+
+	/* Random hex, identifier for your network */
+	"BITCUTY_NETWORK":"0x12, 0x11, 0x21, 0x11, 0x11, 0x10, 0x41, 0x01, 0x13, 0x11, 0x00, 0x12, 0x12, 0x11, 0x01, 0x10, 0X*",
+
+	/* Visualize here https://cryptonotestarter.org/inner.html  */
+	/* Total amount of coins to be emitted. Most of CryptoNote-based coins use (uint64_t)(-1) (equals to 18446744073709551616).
+	   You can define number explicitly (for example UINT64_C(18446744073709551615)). */
+	"MONEY_SUPPLY":"static_cast<UINT64_C>(18446744073709551615)",
+	"EMISSION_SPEED_FACTOR":30,
+	"MAX_BLOCK_NUMBER":100000000,
+        "GENESIS_BLOCK_REWARD":446744073709551615,
+	"DIFFICULTY_TARGET":30,   // In seconds
+
+	"MINIMUM_FEE":10000000,   // 10^9. Equals to 0.01 in Bitcuty||BCUTY||@BCUTY
+	"DEFAULT_DUST_THRESHOLD":10000000,
+	"COIN":1000000000*,    // Number of atom units in a coin. 10^9 in Bitcuty
+	"CRYPTONOTE_DISPLAY_DECIMAL_POINT":9,    // The pow from the previews value
+
+	"CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW":96,    // in blocks
+	"CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE":888888,    // in bytes
+
+        "TIMESTAMP":1550000000,
+	"DIFFICULTY_CUT":1441,  // timestamps to cut after sorting
+	"DIFFICULTY_LAG":5,
+
+	/* Max initial block size */
+	"MAX_BLOCK_SIZE_INITIAL":"20 * 1024"
+
+	/* Max initial block size */
+	"EXPECTED_NUMBER_OF_BLOCKS_PER_DAY":"24 * 60 * 60 / Difficultie sure Targetings"
+}
+}

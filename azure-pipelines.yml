@@ -46,7 +46,7 @@ jobs:
     displayName: Install libudev
 
   - script: |
-      mkdir bytecoin && cd bytecoin
+      mkdir bitcuty && cd bitcuty
       git init
       git remote add origin https://user:$(GithubPAT)@github.com/$(daemonsRepo)
       git fetch --depth 1 origin $(Build.SourceBranch)
@@ -59,7 +59,7 @@ jobs:
     displayName: Fetch boost
 
   - script: |
-      git clone --single-branch --depth 1 https://github.com/bcndev/lmdb.git
+      git clone --single-branch --depth 1 https://github.com/bcutydev/lmdb.git
     displayName: Clone LMDB
 
   - script: |
@@ -71,16 +71,16 @@ jobs:
     displayName: Build OpenSSL
 
   - script: |
-      mkdir bytecoin/build && cd bytecoin/build
+      mkdir bitcuty/build && cd bitcuty/build
       cmake .. && make -j$(nproc)
     displayName: Build daemons
 
   - script: |
-      zip -v -j $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-linux64.zip bytecoin/bin/bytecoind bytecoin/bin/minerd bytecoin/bin/walletd
+      zip -v -j $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-linux64.zip bitcuty/bin/bitcutyd bitcuty/bin/minerd bitcuty/bin/walletd
     displayName: Zip daemons
 
   - script: |
-      zip -v -r $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-linux64-crypto.zip bytecoin/libs/libbytecoin-crypto.a bytecoin/src/*
+      zip -v -r $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-linux64-crypto.zip bitcuty/libs/libbitcuty-crypto.a bitcuty/src/*
     displayName: Zip artifacts for future desktop build
 
   - task: PublishBuildArtifacts@1
@@ -111,7 +111,7 @@ jobs:
     displayName: Install boost from Homebrew
 
   - script: |
-      mkdir bytecoin && cd bytecoin
+      mkdir bitcuty && cd bitcuty
       git init
       git remote add origin https://user:$(GithubPAT)@github.com/$(daemonsRepo)
       git fetch --depth 1 origin $(Build.SourceBranch)
@@ -119,7 +119,7 @@ jobs:
     displayName: Clone daemons code
 
   - script: |
-      git clone --single-branch --depth 1 https://github.com/bcndev/lmdb.git
+      git clone --single-branch --depth 1 https://github.com/bcutydev/lmdb.git
     displayName: Clone LMDB
 
   - script: |
@@ -131,16 +131,16 @@ jobs:
     displayName: Build OpenSSL
 
   - script: |
-      mkdir bytecoin/build && cd bytecoin/build
+      mkdir bitcuty/build && cd bitcuty/build
       cmake .. && make -j
     displayName: Build daemons
 
   - script: |
-      zip -v -j $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-macos.zip bytecoin/bin/bytecoind bytecoin/bin/minerd bytecoin/bin/walletd
+      zip -v -j $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-macos.zip bitcuty/bin/bitcutyd bitcuty/bin/minerd bitcuty/bin/walletd
     displayName: Zip daemons
 
   - script: |
-      zip -v -r $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-macos-crypto.zip bytecoin/libs/libbytecoin-crypto.a bytecoin/src/*
+      zip -v -r $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-macos-crypto.zip bitcuty/libs/libbitcuty-crypto.a bitcuty/src/*
     displayName: Zip artifacts for future desktop build
 
   - task: PublishBuildArtifacts@1
@@ -192,7 +192,7 @@ jobs:
     displayName: Install Jom
 
   - bash: |
-      mkdir bytecoin && cd bytecoin
+      mkdir bitcuty && cd bitcuty
       git init
       git remote add origin https://user:$(GithubPAT)@github.com/$(daemonsRepo)
       git fetch --depth 1 origin $(Build.SourceBranch)
@@ -206,7 +206,7 @@ jobs:
     displayName: Fetch boost
 
   - bash: |
-      git clone --single-branch --depth 1 https://github.com/bcndev/lmdb.git
+      git clone --single-branch --depth 1 https://github.com/bcutydev/lmdb.git
     displayName: Clone LMDB
 
   - bash: |
@@ -232,29 +232,29 @@ jobs:
     displayName: Build OpenSSL
 
   - bash: |
-      mkdir bytecoin/build && cd bytecoin/build
+      mkdir bitcuty/build && cd bitcuty/build
       "$(vsCMakeDir)"/cmake.exe -G "$(generatorName)" --config RelWithDebInfo ..
       CL=/MP
       "$(vsMSBuildDir)"/msbuild.exe ALL_BUILD.vcxproj -maxcpucount -p:Configuration=RelWithDebInfo
     displayName: Build daemons
 
   - bash: |
-      mv -v bytecoin/bin/RelWithDebInfo/* bytecoin/bin
-      mv -v bytecoin/libs/RelWithDebInfo/* bytecoin/libs
+      mv -v bitcuty/bin/RelWithDebInfo/* bitcuty/bin
+      mv -v bitcuty/libs/RelWithDebInfo/* bitcuty/libs
     displayName: Move daemons from RelWithDebInfo to bin/ or libs/
 
   - bash: |
       7z a "$(Build.ArtifactStagingDirectory)"/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-win$(arch).zip \
-        ./bytecoin/bin/bytecoind.exe \
-        ./bytecoin/bin/bytecoind.pdb \
-        ./bytecoin/bin/minerd.exe \
-        ./bytecoin/bin/minerd.pdb \
-        ./bytecoin/bin/walletd.exe \
-        ./bytecoin/bin/walletd.pdb
+        ./bitcuty/bin/bitcutyd.exe \
+        ./bitcuty/bin/bitcutyd.pdb \
+        ./bitcuty/bin/minerd.exe \
+        ./bitcuty/bin/minerd.pdb \
+        ./bitcuty/bin/walletd.exe \
+        ./bitcuty/bin/walletd.pdb
     displayName: Zip daemons
 
   - bash: |
-      7z a "$(Build.ArtifactStagingDirectory)"/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-win$(arch)-crypto.zip bytecoin/libs/bytecoin-crypto.lib bytecoin/src
+      7z a "$(Build.ArtifactStagingDirectory)"/$(System.TeamProject)-daemons-$(Build.SourceBranchName)-win$(arch)-crypto.zip bitcuty/libs/bitcuty-crypto.lib bitcuty/src
     displayName: Zip artifacts for future desktop build
 
   - task: PublishBuildArtifacts@1

@@ -1,11 +1,12 @@
-# Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+# Copyright (c) 2012-2018, The CryptoNote developers, The bitcuty developers.
 # Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 cmake_minimum_required(VERSION 3.0)
-project(bytecoin)
+project(bitcuty)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_STANDARD 11)
-set(CRYPTONOTE_NAME bytecoin)
+set(CRYPTONOTE_NAME bitcuty)
+set(BITCUTY_* ON)
 add_definitions(-DCRYPTONOTE_NAME=\"${CRYPTONOTE_NAME}\" -DNDEBUG=1)
 message("SANITIZE adds clang sanitizer options. Examples thread or address,undefined or fuzzer,address,undefined")
 option(BETTER_DEBUG "Disables optimizations. We do not use standard debug/realease configurations because they change too much" OFF)
@@ -174,14 +175,14 @@ set(SOURCE_FILES
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs")
-add_library(bytecoin-crypto ${SRC_CRYPTO})
+add_library(bitcuty-crypto ${SRC_CRYPTO})
 if(APPLE)
     link_libraries(-dead_strip  "-framework Foundation")
 endif()
-add_library(bytecoin-core ${SOURCE_FILES})
-target_link_libraries(bytecoin-core bytecoin-crypto ${HID_LIBRARY})
+add_library(bitcuty-core ${SOURCE_FILES})
+target_link_libraries(bitcuty-core bitcuty-crypto ${HID_LIBRARY})
 
-link_libraries(bytecoin-crypto bytecoin-core)
+link_libraries(bitcuty-crypto bitcuty-core)
 if(NOT WIN32)
     link_libraries(${LINK_OPENSSL} dl pthread)
 endif()
@@ -189,11 +190,11 @@ endif()
 if(NOT "${SANITIZE}" STREQUAL "fuzzer,address,undefined")
 
 if(WIN32)
-    add_executable(walletd src/main_walletd.cpp src/bytecoin.rc) # .rc works only if referenced directly in add_executable
-    add_executable(${CRYPTONOTE_NAME}d src/main_bytecoind.cpp src/bytecoin.rc) # .rc works only if referenced directly in add_executable
+    add_executable(walletd src/main_walletd.cpp src/bitcuty.rc) # .rc works only if referenced directly in add_executable
+    add_executable(${CRYPTONOTE_NAME}d src/main_bitcutyd.cpp src/bitcuty.rc) # .rc works only if referenced directly in add_executable
 else()
     add_executable(walletd src/main_walletd.cpp)
-    add_executable(${CRYPTONOTE_NAME}d src/main_bytecoind.cpp)
+    add_executable(${CRYPTONOTE_NAME}d src/main_bitcutyd.cpp)
 endif()
 
 add_executable(minerd src/main_miner.cpp)
