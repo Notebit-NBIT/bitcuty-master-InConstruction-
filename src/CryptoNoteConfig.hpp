@@ -51,7 +51,7 @@ const Timestamp BITCUTY_TIMESTAMP                                      = 1550000
                                       "the linky-link linkchain BLOB attribut for the best block"
 // a best properties data and value blockchain .end                                                                                 ¡¡¡
 // Locking by timestamp and by block                                                                                                ¡¡¡
-const Height BITCUTY_MIN_BLOCK_NUMBER                                  = 1000000; //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
+const Height BITCUTY_MIN_BLOCK_NUMBER                                  = 10000000; //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
 const Height BITCUTY_MAX_BLOCK_NUMBER                                  = 0;        //eternal bitcuty per infinity linkchain BLOB    ¡¡¡
 const Height BITCUTY_NONCE_BLOCK_NUMBER                                = 1;        // first block on the linky-link linkchain BLOB  ¡¡¡
 const Height BITCUTY_BLOB_HEIGHT_LINKCHAIN                             = 1;        // the master and main blockchain other is slave ¡¡¡ 
@@ -154,7 +154,7 @@ const uint8_t  BLOCK_MINOR_VERSION_0                                   = 0;     
 const uint8_t  BLOCK_MINOR_VERSION_1                                   = 1;                //                                       ¡¡¡
 
 // Legacy pre amethyst size limits
-const size_t MINIMUM_SIZE_MEDIAN_V3                                    = 1000000;           //                                       ¡¡¡
+const size_t MINIMUM_SIZE_MEDIAN_V3                                    = 1500000;           //                                       ¡¡¡
 const size_t MINIMUM_SIZE_MEDIAN_V2                                    = 300000;            //                                       ¡¡¡
 const size_t MINIMUM_SIZE_MEDIAN_V1                                    = 150000;            //                                       ¡¡¡
 
