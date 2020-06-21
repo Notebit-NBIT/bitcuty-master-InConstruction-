@@ -41,8 +41,8 @@ CRYPTONOTE-GENERATOR
         "GENESIS_BLOCK_REWARD":446744073709551615,
 	"DIFFICULTY_TARGET":30,   // In seconds
 
-	"MINIMUM_FEE":10000000,   // 10^9. Equals to 0.01 in Bitcuty||BCUTY||@BCUTY
-	"DEFAULT_DUST_THRESHOLD":10000000,
+	"MINIMUM_FEE":1000000,   // 10^9. Equals to 0.01 in Bitcuty||BCUTY||@BCUTY
+	"DEFAULT_DUST_THRESHOLD":1000000,
 	"COIN":1000000000*,    // Number of atom units in a coin. 10^9 in Bitcuty
 	"CRYPTONOTE_DISPLAY_DECIMAL_POINT":9,    // The pow from the previews value
 
