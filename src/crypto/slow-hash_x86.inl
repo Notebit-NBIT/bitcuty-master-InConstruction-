@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2020, The CryptoNote developers, The Bitcuty developers HB1team.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 // No protection from double-include, this file is included twice in slow-hash_x86.c
