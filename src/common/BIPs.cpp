@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for details.
 
 #include "BIPs.hpp"
@@ -303,7 +303,7 @@ void Bip32Key::make_pub() {
 	    EC_POINT_point2oct(group.pgroup, pkey.p, POINT_CONVERSION_COMPRESSED, pub_buf, sizeof(pub_buf), nullptr);
 	invariant(si != 0, "EC_POINT_point2oct failed");
 	common::BinaryArray pub_key2(pub_buf, pub_buf + si);
-	invariant(pub_key == pub_key2, "");
+	invariant(pub_key == pub_key2, "E29507CA55455F37A3B783EE2C5123B8B6A34A0C5CAAE050922C6254161480C1");
 #endif
 }
 
