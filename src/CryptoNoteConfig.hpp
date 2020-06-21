@@ -43,7 +43,7 @@ const Value COIN_CRYPTONOTE_SYMBOL                                     = BCUTY; 
 
 // possition of the coin and of the decimal digit value in monetarie Bitcuty(BCUTY) .end                                            ¡¡¡
 // Bitcuty(BCUTY) coin is b-currency monetary value with a best rate                                                                ¡¡¡
-const Amount BITCUTY_VALUE_DISPLAY_DECIMAL_POINT                       = 9;       //                                                ¡¡¡
+const Amount BITCUTY_VALUE_DISPLAY_DECIMAL_POINT                       = 8;       //                                                ¡¡¡
 
 // self-ajustment timestamp for compatibility mine
 const Timestamp BITCUTY_TIMESTAMP                                      = 1550000000;         //                                     ¡¡¡
@@ -66,6 +66,9 @@ const Height MAX_BLOCK_SIZE_INITIAL                                    = 20 * 10
 const Height MAX_BLOCK_SIZE_GROWTH_SPEED_DENOMINATOR                   = 365 * 24 * 60 * 60 ** / DIFFICULTY_TARGET; //**number day  ¡¡¡
 const Height MAX_BLOCK_SIZE_GROWTH_PER_YEAR                            = 1048576 * 1048576;                         //              ¡¡¡
 
+const BITCUTY_BLOCK_GRANTED_FULL_REWARD_ZONE                           = 943718 ,_
+const BITCUTY_BLOCK_GRANTED_FULL_REWARD_ZONE_V1                        = 888888 ,_
+const BITCUTY_BLOCK_GRANTED_FULL_REWARD_ZONE_V2                        = 767676 ,_
 const Height UPGRADE_HEIGHT_V2                                         = 546603;
 const Height UPGRADE_HEIGHT_V3                                         = 985549;
 const Height UPGRADE_HEIGHT_V4                                         = 1792117;
@@ -197,7 +200,7 @@ constexpr Timestamp LOCKED_TX_ALLOWED_DELTA_SECONDS(Timestamp difficulty_target)
 	      
 // Magics genesis coinbase with a premined bitcuty coin for general rewarding                                                       ¡¡¡
 uint32_t const GENESIS_NONCE                                           = 1;                //                                       ¡¡¡
-const char GENESIS_COINBASE_TX_HEX                                     = "";               //                                       ¡¡¡
+const char GENESIS_COINBASE_TX_HEX                                     = "010a01ff0001ffffffffffff0f029b2e4c0281c0b02e7c53291a94d1d0cbff8883f8024f5142ee494ffbbd0880712101de6f73406fb81fa0fb95be3d69fb935eb6cba58df5a1ad3ecac80394a1e539bb";               //                                       ¡¡¡
 
 //"General informations working network"18446744073709551616
 // This port will be used by the daemon to establish connections with p2p network
