@@ -1,3 +1,4 @@
+Bytecoin-Wallet-Daemon-JSON-RPC-API.md
 ## Introduction
 
 The Bytecoin Wallet Daemon (`walletd`, Bytecoin RPC Wallet) is designed to manage a user's account while operating together with a Bytecoin Node Daemon. To start the `walletd` you must pass a path to a wallet file as a command-line parameter which identifies the context the service will work within.
