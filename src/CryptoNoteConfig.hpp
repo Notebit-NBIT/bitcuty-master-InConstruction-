@@ -155,11 +155,7 @@ const uint8_t  BLOCK_MAJOR_VERSION_2                                   = 2;     
 const uint8_t  BLOCK_MAJOR_VERSION_3                                   = 3;                //                                       ¡¡¡
 const uint8_t  BLOCK_MINOR_VERSION_0                                   = 0;                //                                       ¡¡¡
 const uint8_t  BLOCK_MINOR_VERSION_1                                   = 1;                //                                       ¡¡¡
-
-// Legacy pre amethyst size limits
-const size_t MINIMUM_SIZE_MEDIAN_V3                                    = 1500000;           //                                       ¡¡¡
-const size_t MINIMUM_SIZE_MEDIAN_V2                                    = 300000;            //                                       ¡¡¡
-const size_t MINIMUM_SIZE_MEDIAN_V1                                    = 150000;            //                                       ¡¡¡
+                                   
 
 // Size limits                                                                                                                      ¡¡¡
 const Height BITCUTY_MAX_TX_SIZE                                       = 576000000000;     //                                       ¡¡¡ 
