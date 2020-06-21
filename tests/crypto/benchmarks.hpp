@@ -4,11 +4,11 @@
 
 #pragma once
 
-#ifndef BYTECOIN_BENCHMARKS_HPP
-#define BYTECOIN_BENCHMARKS_HPP
+#ifndef BITCUTY_BENCHMARKS_HPP
+#define BITCUTY_BENCHMARKS_HPP
 
 #include <ostream>
 
 void benchmark_crypto_ops(size_t count, std::ostream &out);
 
-#endif  // BYTECOIN_BENCHMARKS_HPP
+#endif  // BITCUTY_BENCHMARKS_HPP
