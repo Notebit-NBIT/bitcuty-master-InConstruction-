@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018, The CryptoNote developers, The Bytecoin developers.
+// Copyright (c) 2012-2018, The CryptoNote developers, The Bitcuty developers.
 // Licensed under the GNU Lesser General Public License. See LICENSE for
 // details.
 
@@ -20,7 +20,7 @@ using namespace cn;
 // test01.simplewallet.wallet
 // format - simplewallet with cache
 // no password
-// created by simplewallet from bytecoin-2.1.2, several tx received and sent
+// created by simplewallet from bitcuty-2.1.2, several tx received and sent
 // 24xTx43fFtNBUn5f6Fj1wC7y8JsbD4N1XS2s3Q8HzWxtfvERccTPX6e5ua1mf55Wm7Z4MiaWT7LPeiBxPtD8kU9V7z3kuex
 
 // test02.wallet
